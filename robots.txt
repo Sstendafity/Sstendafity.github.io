@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://selfistendafity.github.io/sitemap.xml
+Sitemap: https://sstendafity.github.io/sitemap.xml

@@ -1,4 +1,4 @@
-# selfistendafity.github.io
+# sstendafity.github.io
 
 Personal portfolio site. Single static page, no build step, no dependencies.
 
