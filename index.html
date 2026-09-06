@@ -40,6 +40,12 @@
   ]
 }
 </script>
+<script>
+  try {
+    var t = localStorage.getItem("theme");
+    if (t === "dark" || t === "light") document.documentElement.dataset.theme = t;
+  } catch (e) {}
+</script>
 <title>Selfi Stendafity — AI Specialist / R&amp;D Officer</title>
 
 <style>
@@ -194,13 +200,29 @@
   @media (max-width: 880px) { .topbar nav a.opt { display: none; } }
   @media (max-width: 700px) { .topbar nav a { display: none; } .topbar .who span { display: none; } }
 
-  .invert {
+  .theme-btn {
     font-family: var(--mono); font-size: 0.76rem; color: var(--ink-soft);
     background: none; border: 1px solid var(--rule); border-radius: var(--r);
-    padding: 6px 12px; cursor: pointer; min-height: 34px;
+    padding: 6px 12px 6px 10px; cursor: pointer; min-height: 34px;
+    display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
     transition: color .18s ease, border-color .18s ease;
   }
-  .invert:hover { color: var(--accent); border-color: var(--accent); }
+  .theme-btn:hover { color: var(--accent); border-color: var(--accent); }
+  .theme-btn .swatch {
+    width: 11px; height: 11px; flex: none; border-radius: 50%;
+    border: 1px solid currentColor;
+    background: linear-gradient(90deg, currentColor 0 50%, transparent 50% 100%);
+  }
+
+  /* ---------- contact, at the top ---------- */
+
+  .contact {
+    display: flex; flex-wrap: wrap; gap: 8px 26px; align-items: baseline;
+    margin: 30px 0 0; padding: 18px 0 0; border-top: 1px solid var(--rule-soft);
+    list-style: none; max-width: none;
+  }
+  .contact li { max-width: none; }
+  .contact a { font-family: var(--mono); font-size: 0.83rem; letter-spacing: -0.015em; }
 
   .hero-grid {
     display: grid;
@@ -447,10 +469,8 @@
   /* --- footer --- */
 
   footer { padding: 46px 0 60px; }
-  .foot-grid { display: flex; flex-wrap: wrap; gap: 30px 56px; justify-content: space-between; align-items: flex-end; }
-  .foot-links { display: flex; flex-direction: column; gap: 9px; }
-  .foot-links a { font-family: var(--mono); font-size: 0.86rem; }
-  .foot-note { font-family: var(--mono); font-size: 0.74rem; color: var(--ink-faint); max-width: 36ch; line-height: 1.6; }
+  .foot-grid { display: flex; flex-wrap: wrap; gap: 16px 56px; justify-content: space-between; align-items: baseline; }
+  .foot-note { font-family: var(--mono); font-size: 0.74rem; color: var(--ink-faint); max-width: 42ch; line-height: 1.6; margin: 0; }
 
   .skip {
     position: absolute; left: -9999px;
@@ -475,7 +495,7 @@
         <a href="#clinical">Clinical AI</a>
         <a href="#method" class="opt">Method</a>
         <a href="#record" class="opt">Record</a>
-        <button class="invert" id="themeToggle" type="button">Invert</button>
+        <button class="theme-btn" id="themeToggle" type="button" aria-label="Switch to light theme"><span class="swatch" aria-hidden="true"></span><span id="themeLabel">Light</span></button>
       </nav>
     </div>
 
@@ -489,6 +509,12 @@
           <a class="btn btn-primary" href="#build">See recent work</a>
           <a class="btn btn-ghost" href="#method">Read the method</a>
         </div>
+        <ul class="contact">
+          <li><a href="mailto:selfistendafity@gmail.com">selfistendafity@gmail.com</a></li>
+          <li><a href="https://linkedin.com/in/selfi-stendafity">LinkedIn</a></li>
+          <li><a href="https://github.com/Sstendafity">GitHub</a></li>
+          <li><a href="https://scholar.google.co.id/citations?user=Oz2KIi8AAAAJ">Google Scholar</a></li>
+        </ul>
       </div>
 
       <div class="lattice-panel">
@@ -625,12 +651,13 @@
     </div>
 
     <div class="now-row">
-      <p class="when" style="margin:0">2025 to now</p>
+      <p class="when" style="margin:0">2025 to Aug 2026</p>
       <div>
         <h3>Clinical AI engines at Nexmedis</h3>
-        <p>Health-tech SaaS in Jakarta, remote. Taking clinical models from research
+        <p>Health-tech SaaS in Jakarta, remote. Took clinical models from research
         notebooks to containerised services: anomaly detection, claims coding, medical
-        document extraction, radiology inference.</p>
+        document extraction, radiology inference. Left on 27 August 2026 and open to what
+        comes next.</p>
       </div>
     </div>
   </section>
@@ -706,14 +733,13 @@
 
       <div class="shots">
         <figure>
-          <a href="hijab-sources.png">
-            <img src="hijab-sources.png" width="920" height="1520" loading="lazy" decoding="async"
-                 alt="The assistant in a WhatsApp-style thread with source tracing switched on. Under each reply: the detected intent, the exact catalogue entries used, and an escalation badge where the message was routed to a human. It answers a stock question with a real price and count, refuses a product it does not stock, and hands a refund demand to the owner.">
+          <a href="hijab-chat.png">
+            <img src="hijab-chat.png" width="920" height="1250" loading="lazy" decoding="async"
+                 alt="The assistant in a WhatsApp-style thread. It answers a sports-hijab question with the real price, stock count and colour variants, keeps the topic through a follow-up asking only the price, refuses a product it does not stock and offers a human, then apologises and hands a refund demand to the owner.">
           </a>
-          <figcaption>Source tracing on. Under each reply sits the detected intent, the
-          catalogue rows behind the claim, and the escalation badge, so any number traces
-          back to a row. Off by default, because the demo should look like WhatsApp.
-          Open the image for full size.</figcaption>
+          <figcaption>Four turns. The exact price and stock from the catalogue, a follow-up
+          that keeps its topic, a refusal for a product the shop does not carry, and a
+          refund demand handed to the owner. Open the image for full size.</figcaption>
         </figure>
       </div>
     </div>
@@ -723,9 +749,10 @@
   <section id="clinical">
     <div class="sec-head">
       <h2>Clinical AI systems</h2>
-      <p class="kicker">Nexmedis &middot; AI Specialist / R&amp;D Officer &middot; 2025 to present</p>
+      <p class="kicker">Nexmedis &middot; AI Specialist / R&amp;D Officer &middot; 2025 to August 2026</p>
       <p class="lede">Health-tech SaaS for the Indonesian healthcare system. Research
-      notebooks taken through to containerised services on cloud infrastructure.</p>
+      notebooks taken through to containerised services on cloud infrastructure. I left in
+      August 2026.</p>
     </div>
 
     <div class="note">
@@ -1158,26 +1185,34 @@
 
 <footer>
   <div class="wrap foot-grid">
-    <div class="foot-links">
-      <a href="mailto:selfistendafity@gmail.com">selfistendafity@gmail.com</a>
-      <a href="https://linkedin.com/in/selfi-stendafity">linkedin.com/in/selfi-stendafity</a>
-      <a href="https://github.com/Sstendafity">github.com/Sstendafity</a>
-      <a href="https://scholar.google.co.id/citations?user=Oz2KIi8AAAAJ">Google Scholar</a>
-    </div>
     <p class="foot-note">Selfi Stendafity, AI Specialist and R&amp;D Officer. Tuban,
     Indonesia. Open to work on AI systems that have to be right.</p>
+    <p class="foot-note"><a href="#main">Back to the top</a></p>
   </div>
 </footer>
 
 <script>
-  // Theme toggle. Flips whichever theme is currently resolved.
-  var root = document.documentElement;
-  document.getElementById("themeToggle").addEventListener("click", function () {
-    var dark = root.getAttribute("data-theme") === "dark" ||
-      (!root.hasAttribute("data-theme") &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches);
-    root.setAttribute("data-theme", dark ? "light" : "dark");
+  // Theme control. Follows the system until you choose, then remembers the choice.
+  var root = document.documentElement,
+      btn = document.getElementById("themeToggle"),
+      label = document.getElementById("themeLabel"),
+      systemDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+  function isDark() {
+    return root.dataset.theme ? root.dataset.theme === "dark" : systemDark.matches;
+  }
+  function sync() {
+    var next = isDark() ? "light" : "dark";
+    label.textContent = next === "light" ? "Light" : "Dark";
+    btn.setAttribute("aria-label", "Switch to " + next + " theme");
+  }
+  btn.addEventListener("click", function () {
+    root.dataset.theme = isDark() ? "light" : "dark";
+    try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
+    sync();
   });
+  systemDark.addEventListener("change", function () { if (!root.dataset.theme) sync(); });
+  sync();
 </script>
 </body>
 </html>
