@@ -3,22 +3,25 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Selfi Stendafity — AI Specialist / R&amp;D Officer. Production AI systems: anomaly detection, LLM pipelines, computer-vision diagnostics. Peer-reviewed researcher and named inventor.">
+<meta name="description" content="Selfi Stendafity — AI Specialist / R&amp;D Officer. Builds clinical LLM pipelines, anomaly detection and computer-vision diagnostics, and scores them against test suites written to fail.">
 <meta name="author" content="Selfi Stendafity">
 <meta name="color-scheme" content="light dark">
-<meta name="theme-color" content="#0B1110">
+<meta name="theme-color" content="#0E1114">
 <link rel="canonical" href="https://sstendafity.github.io/">
 <meta property="og:type" content="profile">
 <meta property="og:url" content="https://sstendafity.github.io/">
 <meta property="og:title" content="Selfi Stendafity — AI Specialist / R&amp;D Officer">
-<meta property="og:description" content="Production AI systems: anomaly detection, LLM pipelines, computer-vision diagnostics. 10 publications, 2 granted IP filings.">
+<meta property="og:description" content="I build AI systems, then try to break them. Clinical LLM pipelines, anomaly detection, computer-vision diagnostics, and the evaluation harnesses that decide whether they ship.">
 <meta property="og:image" content="https://sstendafity.github.io/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Selfi Stendafity — AI Specialist / R&amp;D Officer, over a phonocardiogram trace.">
+<meta property="og:image:alt" content="Selfi Stendafity — AI Specialist / R&amp;D Officer.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://sstendafity.github.io/og-image.png">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%AB%80</text></svg>">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230E1114'/%3E%3Crect x='22' y='22' width='22' height='22' fill='%23F0A93B'/%3E%3Crect x='56' y='22' width='22' height='22' fill='%23F0A93B'/%3E%3Crect x='22' y='56' width='22' height='22' fill='%23F0A93B'/%3E%3Crect x='58' y='58' width='18' height='18' fill='none' stroke='%23F0A93B' stroke-width='4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -29,7 +32,7 @@
   "email": "selfistendafity@gmail.com",
   "address": { "@type": "PostalAddress", "addressLocality": "Tuban", "addressCountry": "ID" },
   "alumniOf": { "@type": "CollegeOrUniversity", "name": "Institut Teknologi Sepuluh Nopember" },
-  "knowsAbout": ["Machine Learning", "Anomaly Detection", "Computer Vision", "Large Language Models", "Biomedical Signal Processing", "Fiber-Optic Sensing"],
+  "knowsAbout": ["Machine Learning", "LLM Evaluation", "Retrieval-Augmented Generation", "Anomaly Detection", "Computer Vision", "Biomedical Signal Processing", "Fiber-Optic Sensing"],
   "sameAs": [
     "https://linkedin.com/in/selfi-stendafity",
     "https://scholar.google.co.id/citations?user=Oz2KIi8AAAAJ",
@@ -40,887 +43,985 @@
 <title>Selfi Stendafity — AI Specialist / R&amp;D Officer</title>
 
 <style>
+  /* ============================================================
+     Palette: cool instrument slate, one phosphor-amber accent.
+     Answered / refused / handed off are encoded by fill, not by
+     hue, so the lattice reads without color.
+     ============================================================ */
   :root {
-    --ground:      #EDF0EF;
-    --surface:     #F8FAF9;
-    --surface-2:   #E3E8E7;
-    --ink:         #101817;
-    --ink-soft:    #4C5856;
-    --ink-faint:   #77837F;
-    --rule:        #C7D1CE;
-    --rule-soft:   #DBE2E0;
-    --accent:      #B4283F;
-    --accent-ink:  #8E1E31;
-    --accent-wash: rgba(180, 40, 63, 0.07);
-    --trace:       #B4283F;
-    --grid:        rgba(16, 24, 23, 0.07);
+    --ground:     #F1F2F1;
+    --surface:    #FAFAF9;
+    --surface-2:  #E6E8E7;
+    --ink:        #14181C;
+    --ink-soft:   #4B545C;
+    --ink-faint:  #636C75;
+    --rule:       #C7CBCC;
+    --rule-soft:  #DCDFDF;
+    --accent:     #8A5510;
+    --accent-hi:  #6D4209;
+    --accent-wash:rgba(138, 85, 16, 0.07);
+    --fill:       #B0700F;
 
-    --f-mono: ui-monospace, "SF Mono", "SFMono-Regular", "Cascadia Mono", "Segoe UI Mono", Consolas, "Liberation Mono", monospace;
-    --f-body: "Iowan Old Style", "Charter", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
-    --f-ui:   system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SF Mono", "Cascadia Mono", Consolas, monospace;
+    --sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
-    --measure: 66ch;
+    --measure: 68ch;
+    --r: 3px;
+    --gutter: 28px;
   }
 
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --ground:      #0B1110;
-      --surface:     #121A19;
-      --surface-2:   #182120;
-      --ink:         #E5EAE8;
-      --ink-soft:    #9CA9A6;
-      --ink-faint:   #6D7A77;
-      --rule:        #27312F;
-      --rule-soft:   #1C2524;
-      --accent:      #E8556C;
-      --accent-ink:  #F28394;
-      --accent-wash: rgba(232, 85, 108, 0.10);
-      --trace:       #E8556C;
-      --grid:        rgba(229, 234, 232, 0.06);
+      --ground:     #0E1114;
+      --surface:    #161A1F;
+      --surface-2:  #1D232A;
+      --ink:        #E7E9EC;
+      --ink-soft:   #9AA3AD;
+      --ink-faint:  #79838D;
+      --rule:       #262D35;
+      --rule-soft:  #1C222A;
+      --accent:     #F0A93B;
+      --accent-hi:  #F7C271;
+      --accent-wash:rgba(240, 169, 59, 0.10);
+      --fill:       #F0A93B;
     }
   }
-
   :root[data-theme="dark"] {
-    --ground:      #0B1110;
-    --surface:     #121A19;
-    --surface-2:   #182120;
-    --ink:         #E5EAE8;
-    --ink-soft:    #9CA9A6;
-    --ink-faint:   #6D7A77;
-    --rule:        #27312F;
-    --rule-soft:   #1C2524;
-    --accent:      #E8556C;
-    --accent-ink:  #F28394;
-    --accent-wash: rgba(232, 85, 108, 0.10);
-    --trace:       #E8556C;
-    --grid:        rgba(229, 234, 232, 0.06);
+    --ground:     #0E1114;
+    --surface:    #161A1F;
+    --surface-2:  #1D232A;
+    --ink:        #E7E9EC;
+    --ink-soft:   #9AA3AD;
+    --ink-faint:  #79838D;
+    --rule:       #262D35;
+    --rule-soft:  #1C222A;
+    --accent:     #F0A93B;
+    --accent-hi:  #F7C271;
+    --accent-wash:rgba(240, 169, 59, 0.10);
+    --fill:       #F0A93B;
   }
 
   * { box-sizing: border-box; }
 
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
   body {
     background: var(--ground);
     color: var(--ink);
-    font-family: var(--f-body);
-    font-size: 17px;
-    line-height: 1.62;
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
     margin: 0;
     -webkit-font-smoothing: antialiased;
   }
 
-  a { color: var(--accent-ink); text-decoration-thickness: 1px; text-underline-offset: 2px; }
-  a:focus-visible, button:focus-visible {
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:hover { color: var(--accent-hi); }
+  a:focus-visible, button:focus-visible, summary:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 3px;
+    border-radius: var(--r);
   }
 
-  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 var(--gutter); }
 
-  /* ---------- masthead ---------- */
+  /* ---------- shared type ---------- */
 
-  .masthead { border-bottom: 1px solid var(--rule); }
-
-  .trace-field {
-    position: relative;
-    height: 132px;
-    border-bottom: 1px solid var(--rule-soft);
-    overflow: hidden;
-  }
-  #trace { display: block; width: 100%; height: 100%; }
-
-  .ident {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 40px 56px;
-    align-items: flex-end;
-    justify-content: space-between;
-    padding: 44px 0 40px;
-  }
-
-  h1 {
-    font-family: var(--f-mono);
-    font-size: clamp(2.1rem, 6.2vw, 3.7rem);
-    font-weight: 500;
-    letter-spacing: -0.045em;
-    line-height: 1.02;
-    margin: 0 0 18px;
-    text-wrap: balance;
-  }
-
-  .standfirst {
-    max-width: 46ch;
-    font-size: 1.14rem;
-    line-height: 1.55;
-    color: var(--ink-soft);
-    margin: 0;
-    text-wrap: pretty;
-  }
-  .standfirst b { color: var(--ink); font-weight: 600; }
-
-  .label {
-    font-family: var(--f-ui);
-    font-size: 0.66rem;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
+  .kicker {
+    font-family: var(--mono);
+    font-size: 0.78rem;
     color: var(--ink-faint);
+    margin: 0 0 10px;
+    letter-spacing: -0.01em;
   }
-
-  .contact-block { display: flex; flex-direction: column; gap: 7px; min-width: 210px; }
-  .contact-block a {
-    font-family: var(--f-mono);
-    font-size: 0.86rem;
-    letter-spacing: -0.02em;
-    word-break: break-all;
-  }
-
-  /* ---------- two-column shell ---------- */
-
-  .shell {
-    display: grid;
-    grid-template-columns: 218px minmax(0, 1fr);
-    gap: 0 64px;
-    align-items: start;
-    padding: 56px 0 96px;
-  }
-
-  .index { position: sticky; top: 28px; }
-  .index ol { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-direction: column; }
-  .index a {
-    display: block;
-    font-family: var(--f-mono);
-    font-size: 0.82rem;
-    letter-spacing: -0.015em;
-    color: var(--ink-soft);
-    text-decoration: none;
-    padding: 8px 0 8px 13px;
-    border-left: 2px solid var(--rule);
-  }
-  .index a:hover { color: var(--accent-ink); border-left-color: var(--accent); }
-
-  .theme-toggle {
-    margin-top: 26px;
-    font-family: var(--f-ui);
-    font-size: 0.66rem;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    background: none;
-    border: 1px solid var(--rule);
-    border-radius: 2px;
-    padding: 8px 12px;
-    cursor: pointer;
-  }
-  .theme-toggle:hover { color: var(--ink); border-color: var(--ink-faint); }
-
-  /* ---------- sections ---------- */
-
-  section { scroll-margin-top: 24px; }
-  section + section { margin-top: 76px; }
-
-  .sec-head { border-top: 2px solid var(--ink); padding-top: 14px; margin-bottom: 28px; }
-  .sec-head h2 {
-    font-family: var(--f-mono);
-    font-size: clamp(1.35rem, 3vw, 1.75rem);
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.7rem;
     font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 14px;
+  }
+  h2 {
+    font-family: var(--mono);
+    font-size: clamp(1.5rem, 3.4vw, 2.05rem);
+    font-weight: 600;
     letter-spacing: -0.035em;
-    margin: 6px 0 0;
-    text-wrap: balance;
+    line-height: 1.12;
+    margin: 0 0 14px;
   }
-
-  .lede { max-width: var(--measure); font-size: 1.06rem; color: var(--ink-soft); }
-  .lede b { color: var(--ink); font-weight: 600; }
-
-  p { max-width: var(--measure); margin: 0 0 1.05em; text-wrap: pretty; }
-  p:last-child { margin-bottom: 0; }
+  h3 {
+    font-family: var(--mono);
+    font-size: 1.08rem;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    line-height: 1.28;
+    margin: 0 0 6px;
+  }
+  h4 {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 26px 0 6px;
+  }
+  p, li { max-width: var(--measure); text-wrap: pretty; }
+  code { font-family: var(--mono); font-size: 0.88em; background: var(--surface-2); padding: 1px 5px; border-radius: var(--r); }
   strong { font-weight: 600; }
 
-  /* ---------- records ---------- */
+  .lede { font-size: 1.06rem; color: var(--ink-soft); max-width: 60ch; }
+  .lede strong { color: var(--ink); }
 
-  .record { border-top: 1px solid var(--rule); padding-top: 22px; margin-top: 34px; }
+  /* ============================================================
+     Hero
+     ============================================================ */
 
-  .record h3 {
-    font-family: var(--f-mono);
-    font-size: 1.06rem;
-    font-weight: 500;
-    letter-spacing: -0.025em;
-    margin: 0 0 4px;
+  .hero { border-bottom: 1px solid var(--rule); padding: 0 0 clamp(48px, 6vw, 64px); }
+
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; padding: 0; height: 68px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  .topbar .who { font-family: var(--mono); font-weight: 600; font-size: 0.9rem; letter-spacing: -0.03em; white-space: nowrap; }
+  .topbar nav { display: flex; gap: 22px; align-items: center; }
+  .topbar nav a {
+    font-family: var(--mono); font-size: 0.8rem; color: var(--ink-soft);
+    text-decoration: none; letter-spacing: -0.015em; white-space: nowrap;
+  }
+  .topbar nav a:hover { color: var(--accent); }
+  @media (max-width: 880px) { .topbar nav a.opt { display: none; } }
+  @media (max-width: 700px) { .topbar nav a { display: none; } .topbar .who span { display: none; } }
+
+  .invert {
+    font-family: var(--mono); font-size: 0.76rem; color: var(--ink-soft);
+    background: none; border: 1px solid var(--rule); border-radius: var(--r);
+    padding: 6px 12px; cursor: pointer; min-height: 34px;
+    transition: color .18s ease, border-color .18s ease;
+  }
+  .invert:hover { color: var(--accent); border-color: var(--accent); }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 400px);
+    gap: clamp(36px, 5vw, 64px);
+    align-items: center;
+    padding-top: clamp(40px, 4.5vw, 60px);
+  }
+  @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; padding-top: 40px; } }
+
+  h1 {
+    font-family: var(--mono);
+    font-size: clamp(2rem, 5vw, 3.3rem);
+    font-weight: 600;
+    letter-spacing: -0.05em;
+    line-height: 1.06;
+    margin: 0 0 20px;
+    max-width: 15ch;
     text-wrap: balance;
   }
-  .record h4 {
-    font-family: var(--f-ui);
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    margin: 26px 0 10px;
+  h1 em { font-style: italic; font-family: var(--sans); font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; padding-bottom: 2px; }
+
+  .hero p.sub { font-size: 1.06rem; color: var(--ink-soft); max-width: 45ch; margin: 0 0 28px; }
+
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    font-family: var(--mono); font-size: 0.84rem; font-weight: 500;
+    text-decoration: none; white-space: nowrap;
+    padding: 11px 20px; min-height: 44px; border-radius: var(--r);
+    display: inline-flex; align-items: center;
+    transition: transform .14s ease, background-color .18s ease, border-color .18s ease, color .18s ease;
   }
+  .btn-primary { background: var(--accent); color: var(--ground); border: 1px solid var(--accent); }
+  .btn-primary:hover { background: var(--accent-hi); border-color: var(--accent-hi); color: var(--ground); }
+  .btn-ghost { border: 1px solid var(--rule); color: var(--ink); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .btn:active { transform: translateY(1px); }
 
-  .sub {
-    font-family: var(--f-ui);
-    font-size: 0.79rem;
-    color: var(--ink-faint);
-    margin: 0 0 14px;
-    max-width: var(--measure);
-  }
-  .sub em { color: var(--accent-ink); font-style: normal; font-weight: 600; }
+  /* ---------- the signature: evaluation lattice ---------- */
 
-  ul { max-width: var(--measure); margin: 0 0 1.05em; padding-left: 1.15em; }
-  li { margin-bottom: 0.5em; text-wrap: pretty; }
-  li::marker { color: var(--ink-faint); }
-
-  /* ---------- notes & callouts ---------- */
-
-  .note {
-    border-left: 3px solid var(--accent);
-    background: var(--accent-wash);
-    padding: 16px 20px;
-    margin: 0 0 30px;
-    max-width: var(--measure);
-    font-size: 0.94rem;
-    line-height: 1.55;
-    color: var(--ink-soft);
-  }
-  .note .label { display: block; color: var(--accent-ink); margin-bottom: 6px; }
-  .note p { margin: 0; max-width: none; }
-
-  .pull {
-    border-top: 1px solid var(--rule-soft);
-    border-bottom: 1px solid var(--rule-soft);
-    padding: 18px 0;
-    margin: 24px 0;
-    max-width: var(--measure);
-    font-size: 1.08rem;
-    line-height: 1.5;
-    color: var(--ink);
-  }
-  .pull b { color: var(--accent-ink); font-weight: 600; }
-
-  /* ---------- readout: metric strip ---------- */
-
-  .readout {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1px;
-    background: var(--rule);
+  .lattice-panel {
     border: 1px solid var(--rule);
-    margin: 22px 0 26px;
-    max-width: var(--measure);
-  }
-  .readout div {
-    flex: 1 1 140px;
+    border-radius: var(--r);
     background: var(--surface);
-    padding: 13px 16px;
+    padding: 22px;
+  }
+  .lattice-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 12px; margin-bottom: 16px; flex-wrap: wrap;
+  }
+  @media (max-width: 520px) {
+    .lattice-panel .lattice-head { display: block; }
+    .lattice-panel .lattice-head .src { text-align: left; margin-top: 6px; }
+  }
+  .lattice-head .n {
+    font-family: var(--mono); font-size: 1.5rem; font-weight: 600;
+    letter-spacing: -0.045em; color: var(--ink); font-variant-numeric: tabular-nums;
+  }
+  .lattice-head .n small { color: var(--ink-faint); font-size: 0.6em; font-weight: 500; letter-spacing: 0; }
+  .lattice-head .src { font-family: var(--mono); font-size: 0.7rem; color: var(--ink-faint); text-align: right; line-height: 1.5; }
+
+  .lattice { display: grid; grid-template-columns: repeat(9, 1fr); gap: 5px; }
+  .lattice .c {
+    aspect-ratio: 1;
+    border-radius: 1px;
+    display: block;
+    animation: cell-in .34s cubic-bezier(.16,1,.3,1) backwards;
+    animation-delay: calc(var(--i) * 11ms);
+  }
+  .lattice .g { background: var(--fill); }
+  .lattice .r { background: transparent; box-shadow: inset 0 0 0 1.5px var(--fill); }
+  .lattice .h { background: linear-gradient(135deg, var(--fill) 0 50%, transparent 50% 100%); box-shadow: inset 0 0 0 1.5px var(--fill); }
+  @keyframes cell-in { from { opacity: 0; transform: scale(.55); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .lattice .c { animation: none; } }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 7px 22px; margin: 18px 0 0; padding: 0; list-style: none; }
+  .legend li {
+    font-family: var(--mono); font-size: 0.71rem; color: var(--ink-soft);
+    display: flex; align-items: center; gap: 8px; max-width: none;
+  }
+  .legend .k { width: 10px; height: 10px; flex: none; border-radius: 1px; }
+  .legend .k.g { background: var(--fill); }
+  .legend .k.r { box-shadow: inset 0 0 0 1.5px var(--fill); }
+  .legend .k.h { background: linear-gradient(135deg, var(--fill) 0 50%, transparent 50% 100%); box-shadow: inset 0 0 0 1.5px var(--fill); }
+  .lattice-note {
+    font-size: 0.82rem; color: var(--ink-faint); margin: 18px 0 0;
+    padding-top: 15px; border-top: 1px solid var(--rule-soft); max-width: none; line-height: 1.55;
+  }
+
+  /* ============================================================
+     Sections
+     ============================================================ */
+
+  section { padding: clamp(56px, 7vw, 92px) 0; border-bottom: 1px solid var(--rule); }
+  .sec-head { margin-bottom: 32px; }
+
+  /* --- Now: dated rail --- */
+
+  .now-row {
+    display: grid;
+    grid-template-columns: 160px minmax(0, 1fr);
+    gap: 8px 32px;
+    padding: 24px 0;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .now-row:first-of-type { border-top: 1px solid var(--rule); }
+  .now-row .when {
+    font-family: var(--mono); font-size: 0.8rem; color: var(--accent);
+    font-variant-numeric: tabular-nums; padding-top: 3px;
+  }
+  .now-row p { margin: 6px 0 0; color: var(--ink-soft); font-size: 0.95rem; }
+  @media (max-width: 720px) { .now-row { grid-template-columns: 1fr; gap: 4px; } }
+
+  /* --- Featured build --- */
+
+  .feature {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.72fr);
+    gap: clamp(32px, 4.5vw, 56px);
+    align-items: start;
+  }
+  @media (max-width: 940px) { .feature { grid-template-columns: 1fr; } }
+
+  .shots { display: grid; gap: 22px; position: sticky; top: 28px; }
+  .shots figure { margin: 0; }
+  .shots a { display: block; border-radius: var(--r); }
+  .shots img {
+    display: block; width: 100%; height: auto;
+    border: 1px solid var(--rule); border-radius: var(--r);
+    background: var(--surface);
+    transition: border-color .18s ease;
+  }
+  .shots a:hover img { border-color: var(--accent); }
+  @media (max-width: 940px) { .shots { position: static; max-width: 420px; } }
+  .shots figcaption {
+    font-family: var(--mono); font-size: 0.71rem; color: var(--ink-faint);
+    margin-top: 10px; line-height: 1.5;
+  }
+
+  /* --- readouts --- */
+
+  .readout { display: flex; flex-wrap: wrap; gap: 10px; margin: 22px 0; padding: 0; }
+  .readout > div {
+    flex: 1 1 150px; max-width: 300px;
+    border: 1px solid var(--rule); border-radius: var(--r);
+    padding: 13px 15px; background: var(--surface);
   }
   .readout dt {
-    font-family: var(--f-ui);
-    font-size: 0.63rem;
-    font-weight: 600;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    margin-bottom: 5px;
+    font-family: var(--mono); font-size: 0.67rem; letter-spacing: 0.09em;
+    text-transform: uppercase; color: var(--ink-faint); margin-bottom: 5px;
   }
   .readout dd {
-    font-family: var(--f-mono);
-    font-size: 1.12rem;
-    letter-spacing: -0.03em;
-    font-variant-numeric: tabular-nums;
-    color: var(--accent-ink);
-    margin: 0;
+    margin: 0; font-family: var(--mono); font-size: 1.3rem; font-weight: 600;
+    letter-spacing: -0.04em; color: var(--ink); font-variant-numeric: tabular-nums;
   }
   .readout dd small {
-    display: block;
-    font-family: var(--f-ui);
-    font-size: 0.68rem;
-    letter-spacing: 0;
-    color: var(--ink-faint);
-    margin-top: 2px;
+    display: block; font-size: 0.57em; font-weight: 400; letter-spacing: 0;
+    color: var(--ink-faint); margin-top: 4px; font-family: var(--sans); line-height: 1.4;
   }
 
-  /* ---------- tables ---------- */
+  /* --- record blocks --- */
 
-  .scroller { overflow-x: auto; margin: 0 0 26px; max-width: var(--measure); }
-  table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
-  th, td {
-    text-align: left;
-    vertical-align: top;
-    padding: 10px 16px 10px 0;
-    border-bottom: 1px solid var(--rule-soft);
-    line-height: 1.45;
-  }
-  thead th {
-    font-family: var(--f-ui);
-    font-size: 0.66rem;
-    font-weight: 700;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    border-bottom: 1px solid var(--rule);
-    white-space: nowrap;
-  }
-  tbody th {
-    font-family: var(--f-mono);
-    font-size: 0.83rem;
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    color: var(--ink);
-    white-space: nowrap;
-    padding-right: 26px;
-  }
-  td { color: var(--ink-soft); }
-  .skills td { max-width: 62ch; }
+  .record { padding: 30px 0; border-top: 1px solid var(--rule-soft); }
+  .record:first-of-type { border-top: 1px solid var(--rule); }
+  .record .sub { font-family: var(--mono); font-size: 0.78rem; color: var(--ink-faint); margin: 0 0 14px; }
+  .record .sub em { color: var(--accent); font-style: normal; }
+  .record ul, .record ol { padding-left: 20px; margin: 12px 0; }
+  .record li { margin-bottom: 8px; }
 
-  /* ---------- numbered phases (a real sequence) ---------- */
-
-  .phases { list-style: none; padding: 0; margin: 0 0 26px; max-width: var(--measure); counter-reset: phase; }
-  .phases li {
-    counter-increment: phase;
-    position: relative;
-    padding-left: 44px;
-    margin-bottom: 15px;
+  .note {
+    border-left: 2px solid var(--accent);
+    background: var(--accent-wash);
+    padding: 16px 20px; border-radius: 0 var(--r) var(--r) 0;
+    margin-bottom: 28px;
   }
-  .phases li::before {
-    content: counter(phase, decimal-leading-zero);
-    position: absolute;
-    left: 0;
-    top: 0.16em;
-    font-family: var(--f-mono);
-    font-size: 0.78rem;
-    font-variant-numeric: tabular-nums;
-    color: var(--accent-ink);
-    border: 1px solid var(--rule);
-    padding: 1px 6px;
-  }
+  .note p { margin: 0; font-size: 0.9rem; color: var(--ink-soft); max-width: 74ch; }
+  .note b { color: var(--ink); font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; display: block; margin-bottom: 7px; }
 
-  /* ---------- stack line ---------- */
+  .pull {
+    font-size: 1.01rem; color: var(--ink); max-width: 58ch;
+    border-left: 2px solid var(--rule); padding: 4px 0 4px 20px; margin: 20px 0;
+  }
+  .pull b { color: var(--accent); font-weight: 600; }
 
   .stack {
-    font-family: var(--f-ui);
-    font-size: 0.8rem;
-    line-height: 1.65;
-    color: var(--ink-faint);
-    border-top: 1px solid var(--rule-soft);
-    padding-top: 14px;
-    margin-top: 26px;
-    max-width: var(--measure);
+    font-family: var(--mono); font-size: 0.79rem; color: var(--ink-faint);
+    line-height: 1.75; max-width: none; margin-top: 30px;
+    padding-top: 18px; border-top: 1px solid var(--rule);
   }
-  .stack b {
-    font-family: var(--f-ui);
-    font-weight: 700;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-    font-size: 0.66rem;
-    color: var(--ink-faint);
-    display: block;
-    margin-bottom: 5px;
-  }
+  .stack b { color: var(--ink-soft); display: block; margin-bottom: 4px; font-weight: 500; }
 
-  /* ---------- publications ---------- */
+  /* --- method band --- */
 
-  .pubs { list-style: none; padding: 0; margin: 0; max-width: var(--measure); }
-  .pubs li {
-    border-top: 1px solid var(--rule-soft);
-    padding: 16px 0 16px 44px;
-    position: relative;
+  .beats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: var(--r); overflow: hidden; }
+  .beats > div { background: var(--ground); padding: 26px 24px; }
+  .beats h3 { color: var(--accent); font-size: 0.95rem; margin-bottom: 8px; }
+  .beats p { font-size: 0.92rem; color: var(--ink-soft); margin: 0; }
+  @media (max-width: 860px) { .beats { grid-template-columns: 1fr; } }
+
+  /* --- work grid --- */
+
+  .work { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: var(--r); overflow: hidden; }
+  .work > article { background: var(--ground); padding: 26px 24px; }
+  .work .sub { font-family: var(--mono); font-size: 0.74rem; color: var(--ink-faint); margin: 0 0 12px; }
+  .work p { font-size: 0.93rem; color: var(--ink-soft); }
+  .work p:last-child { margin-bottom: 0; }
+  @media (max-width: 780px) { .work { grid-template-columns: 1fr; } }
+
+  /* --- tables --- */
+
+  .scroller { overflow-x: auto; margin: 18px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.9rem; min-width: 460px; }
+  th, td { text-align: left; padding: 11px 18px 11px 0; border-bottom: 1px solid var(--rule-soft); vertical-align: top; }
+  thead th { font-family: var(--mono); font-size: 0.69rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-faint); border-bottom-color: var(--rule); }
+  tbody th { font-weight: 600; color: var(--ink); width: 34%; }
+  td { color: var(--ink-soft); }
+
+  /* --- disclosure --- */
+
+  details { border-top: 1px solid var(--rule); margin-top: 26px; }
+  summary {
+    font-family: var(--mono); font-size: 0.86rem; font-weight: 500;
+    padding: 16px 0; cursor: pointer; color: var(--ink); list-style: none;
+    display: flex; align-items: center; gap: 10px; min-height: 44px;
   }
-  /* list-item counter honours the ol's start attribute, so numbering runs 1..10
-     unbroken across the separate grouped lists. */
-  .pubs li::before {
-    content: "[" counter(list-item) "]";
-    position: absolute; left: 0; top: 17px;
-    font-family: var(--f-mono);
-    font-size: 0.8rem;
-    color: var(--ink-faint);
-  }
-  .pubs cite { font-style: normal; font-weight: 600; }
-  .pubs .authors { display: block; font-size: 0.86rem; color: var(--ink-soft); margin-bottom: 3px; }
-  .pubs .authors b { color: var(--ink); font-weight: 700; }
-  .pubs span.venue { display: block; font-size: 0.86rem; color: var(--ink-faint); margin-top: 4px; }
-  .pubs .cited {
-    font-family: var(--f-mono);
-    font-size: 0.74rem;
-    font-variant-numeric: tabular-nums;
-    color: var(--accent-ink);
-    border: 1px solid var(--rule);
-    padding: 1px 6px;
-    margin-left: 8px;
-    white-space: nowrap;
-  }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: "+"; color: var(--accent); font-weight: 600; width: 12px; }
+  details[open] summary::before { content: "\2212"; }
+  summary:hover { color: var(--accent); }
+
   .pub-group {
-    font-family: var(--f-ui);
-    font-size: 0.66rem;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    margin: 34px 0 0;
+    font-family: var(--mono); font-size: 0.71rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-faint);
+    margin: 30px 0 6px; padding-bottom: 8px; border-bottom: 1px solid var(--rule-soft);
+    max-width: none;
   }
-  .pub-group:first-of-type { margin-top: 22px; }
+  .pubs { list-style: none; padding: 0; margin: 0; }
+  .pubs li { padding: 15px 0; border-bottom: 1px solid var(--rule-soft); max-width: 80ch; }
+  .pubs cite { display: block; font-style: normal; font-weight: 600; color: var(--ink); margin: 3px 0; }
+  .pubs .authors, .pubs .venue { font-size: 0.84rem; color: var(--ink-faint); display: block; }
+  .pubs .authors b { color: var(--ink-soft); }
+  .pubs .cited { font-family: var(--mono); color: var(--accent); margin-left: 8px; }
 
-  footer {
-    border-top: 1px solid var(--rule);
-    padding: 30px 0 56px;
-    font-family: var(--f-ui);
-    font-size: 0.78rem;
-    color: var(--ink-faint);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px 32px;
-    justify-content: space-between;
-  }
+  /* --- footer --- */
 
-  @media (max-width: 900px) {
-    /* minmax(0,…) not a bare 1fr: 1fr means minmax(auto,1fr), whose auto minimum
-       lets a wide descendant blow the track past the viewport. */
-    .shell { grid-template-columns: minmax(0, 1fr); gap: 0; padding-top: 34px; }
-    .index { position: static; margin-bottom: 46px; }
-    .index ol { flex-flow: row wrap; gap: 0 4px; }
-    .index a { border-left: none; border-top: 2px solid var(--rule); padding: 7px 14px 7px 0; }
-    .ident { padding: 32px 0 30px; gap: 26px; }
-    .trace-field { height: 96px; }
-  }
+  footer { padding: 46px 0 60px; }
+  .foot-grid { display: flex; flex-wrap: wrap; gap: 30px 56px; justify-content: space-between; align-items: flex-end; }
+  .foot-links { display: flex; flex-direction: column; gap: 9px; }
+  .foot-links a { font-family: var(--mono); font-size: 0.86rem; }
+  .foot-note { font-family: var(--mono); font-size: 0.74rem; color: var(--ink-faint); max-width: 36ch; line-height: 1.6; }
 
-  @media (prefers-reduced-motion: reduce) {
-    * { animation: none !important; transition: none !important; }
+  .skip {
+    position: absolute; left: -9999px;
+    background: var(--accent); color: var(--ground); padding: 10px 16px;
+    font-family: var(--mono); font-size: 0.85rem; border-radius: var(--r); z-index: 10;
   }
+  .skip:focus { left: 12px; top: 12px; }
 </style>
 </head>
 <body>
 
-<header class="masthead">
-  <div class="trace-field"><canvas id="trace" aria-hidden="true"></canvas></div>
-  <div class="wrap ident">
-    <div>
-      <p class="label">AI Specialist / R&amp;D Officer &middot; Tuban, Indonesia</p>
-      <h1>Selfi Stendafity</h1>
-      <p class="standfirst">
-        AI/ML engineer with a research foundation, building and shipping production AI
-        systems: anomaly detection, LLM pipelines, computer-vision diagnostics and
-        backend data services. Peer-reviewed researcher and <b>named inventor</b>.
-      </p>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="hero">
+  <div class="wrap">
+
+    <div class="topbar">
+      <p class="who">Selfi Stendafity <span style="color:var(--ink-faint);font-weight:400"> / AI Specialist</span></p>
+      <nav aria-label="Sections">
+        <a href="#now">Now</a>
+        <a href="#build">Build</a>
+        <a href="#clinical">Clinical AI</a>
+        <a href="#method" class="opt">Method</a>
+        <a href="#record" class="opt">Record</a>
+        <button class="invert" id="themeToggle" type="button">Invert</button>
+      </nav>
     </div>
-    <div class="contact-block">
-      <p class="label">Contact</p>
-      <a href="mailto:selfistendafity@gmail.com">selfistendafity@gmail.com</a>
-      <a href="https://linkedin.com/in/selfi-stendafity">linkedin.com/in/selfi-stendafity</a>
-      <a href="https://scholar.google.co.id/citations?user=Oz2KIi8AAAAJ">Google Scholar</a>
-      <p class="label" style="margin-top:12px">Record</p>
-      <p class="sub" style="margin:0">10 publications &middot; 40 citations &middot; h-index 3 &middot; 2 granted IP filings</p>
+
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">AI Specialist / R&amp;D Officer &middot; Tuban, Indonesia</p>
+        <h1>I build AI systems, then <em>try to break them.</em></h1>
+        <p class="sub">Clinical LLM pipelines, anomaly detection and computer-vision
+        diagnostics, shipped to production and scored against suites written to fail.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#build">See recent work</a>
+          <a class="btn btn-ghost" href="#method">Read the method</a>
+        </div>
+      </div>
+
+      <div class="lattice-panel">
+        <div class="lattice-head">
+          <p class="n" style="margin:0">81&thinsp;/&thinsp;81 <small>cases</small></p>
+          <p class="src" style="margin:0">Hijab Amira<br>eval suite, Aug 2026</p>
+        </div>
+        <div class="lattice" role="img" aria-label="A grid of 81 squares, one per test case in the Hijab Amira evaluation suite: 58 answered from the seller's own data, 15 correctly refused because the answer was absent, and 8 routed to a human.">
+          <i class="c g" style="--i:0" title="GROUNDED 1 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:1" title="GROUNDED 2 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:2" title="GROUNDED 3 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:3" title="GROUNDED 4 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:4" title="GROUNDED 5 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:5" title="GROUNDED 6 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:6" title="GROUNDED 7 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:7" title="GROUNDED 8 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:8" title="GROUNDED 9 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:9" title="GROUNDED 10 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:10" title="GROUNDED 11 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:11" title="GROUNDED 12 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:12" title="GROUNDED 13 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:13" title="GROUNDED 14 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:14" title="GROUNDED 15 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:15" title="GROUNDED 16 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:16" title="GROUNDED 17 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:17" title="GROUNDED 18 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:18" title="GROUNDED 19 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:19" title="GROUNDED 20 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:20" title="GROUNDED 21 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:21" title="GROUNDED 22 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:22" title="GROUNDED 23 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:23" title="GROUNDED 24 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:24" title="GROUNDED 25 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:25" title="GROUNDED 26 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:26" title="GROUNDED 27 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:27" title="GROUNDED 28 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:28" title="GROUNDED 29 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:29" title="GROUNDED 30 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:30" title="GROUNDED 31 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:31" title="GROUNDED 32 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:32" title="GROUNDED 33 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:33" title="GROUNDED 34 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:34" title="GROUNDED 35 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:35" title="GROUNDED 36 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:36" title="GROUNDED 37 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:37" title="GROUNDED 38 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:38" title="GROUNDED 39 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:39" title="GROUNDED 40 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:40" title="GROUNDED 41 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:41" title="GROUNDED 42 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:42" title="GROUNDED 43 of 43: answered from the catalog, FAQ or order records"></i>
+          <i class="c g" style="--i:43" title="ORDER 1 of 10: order lookup reported from the real record"></i>
+          <i class="c g" style="--i:44" title="ORDER 2 of 10: order lookup reported from the real record"></i>
+          <i class="c g" style="--i:45" title="ORDER 3 of 10: order lookup reported from the real record"></i>
+          <i class="c g" style="--i:46" title="ORDER 4 of 10: order lookup reported from the real record"></i>
+          <i class="c g" style="--i:47" title="ORDER 5 of 10: order lookup reported from the real record"></i>
+          <i class="c g" style="--i:48" title="ORDER 6 of 10: order lookup reported from the real record"></i>
+          <i class="c g" style="--i:49" title="ORDER 7 of 10: order lookup reported from the real record"></i>
+          <i class="c g" style="--i:50" title="ORDER 8 of 10: order lookup reported from the real record"></i>
+          <i class="c g" style="--i:51" title="ORDER 9 of 10: order lookup reported from the real record"></i>
+          <i class="c g" style="--i:52" title="ORDER 10 of 10: order lookup reported from the real record"></i>
+          <i class="c g" style="--i:53" title="SMALLTALK 1 of 5: greeting or thanks, answered without escalating"></i>
+          <i class="c g" style="--i:54" title="SMALLTALK 2 of 5: greeting or thanks, answered without escalating"></i>
+          <i class="c g" style="--i:55" title="SMALLTALK 3 of 5: greeting or thanks, answered without escalating"></i>
+          <i class="c g" style="--i:56" title="SMALLTALK 4 of 5: greeting or thanks, answered without escalating"></i>
+          <i class="c g" style="--i:57" title="SMALLTALK 5 of 5: greeting or thanks, answered without escalating"></i>
+          <i class="c r" style="--i:58" title="REFUSE 1 of 12: answer absent from the data, correctly refused"></i>
+          <i class="c r" style="--i:59" title="REFUSE 2 of 12: answer absent from the data, correctly refused"></i>
+          <i class="c r" style="--i:60" title="REFUSE 3 of 12: answer absent from the data, correctly refused"></i>
+          <i class="c r" style="--i:61" title="REFUSE 4 of 12: answer absent from the data, correctly refused"></i>
+          <i class="c r" style="--i:62" title="REFUSE 5 of 12: answer absent from the data, correctly refused"></i>
+          <i class="c r" style="--i:63" title="REFUSE 6 of 12: answer absent from the data, correctly refused"></i>
+          <i class="c r" style="--i:64" title="REFUSE 7 of 12: answer absent from the data, correctly refused"></i>
+          <i class="c r" style="--i:65" title="REFUSE 8 of 12: answer absent from the data, correctly refused"></i>
+          <i class="c r" style="--i:66" title="REFUSE 9 of 12: answer absent from the data, correctly refused"></i>
+          <i class="c r" style="--i:67" title="REFUSE 10 of 12: answer absent from the data, correctly refused"></i>
+          <i class="c r" style="--i:68" title="REFUSE 11 of 12: answer absent from the data, correctly refused"></i>
+          <i class="c r" style="--i:69" title="REFUSE 12 of 12: answer absent from the data, correctly refused"></i>
+          <i class="c r" style="--i:70" title="SAFE 1 of 3: adversarial pressure, correctly refused"></i>
+          <i class="c r" style="--i:71" title="SAFE 2 of 3: adversarial pressure, correctly refused"></i>
+          <i class="c r" style="--i:72" title="SAFE 3 of 3: adversarial pressure, correctly refused"></i>
+          <i class="c h" style="--i:73" title="ESCALATE 1 of 8: complaint or human request, routed to the owner"></i>
+          <i class="c h" style="--i:74" title="ESCALATE 2 of 8: complaint or human request, routed to the owner"></i>
+          <i class="c h" style="--i:75" title="ESCALATE 3 of 8: complaint or human request, routed to the owner"></i>
+          <i class="c h" style="--i:76" title="ESCALATE 4 of 8: complaint or human request, routed to the owner"></i>
+          <i class="c h" style="--i:77" title="ESCALATE 5 of 8: complaint or human request, routed to the owner"></i>
+          <i class="c h" style="--i:78" title="ESCALATE 6 of 8: complaint or human request, routed to the owner"></i>
+          <i class="c h" style="--i:79" title="ESCALATE 7 of 8: complaint or human request, routed to the owner"></i>
+          <i class="c h" style="--i:80" title="ESCALATE 8 of 8: complaint or human request, routed to the owner"></i>
+        </div>
+        <ul class="legend">
+          <li><span class="k g"></span>58 answered from data</li>
+          <li><span class="k r"></span>15 refused, answer absent</li>
+          <li><span class="k h"></span>8 routed to a human</li>
+        </ul>
+        <p class="lattice-note">Every square is one adversarial case: slang, typos, prompt
+        injection, an unlisted product, an order ID that does not exist. Twelve are
+        hallucination traps. All twelve were refused.</p>
+      </div>
     </div>
+
   </div>
 </header>
 
-<div class="wrap shell">
+<main id="main">
+<div class="wrap">
 
-  <nav class="index" aria-label="Sections">
-    <p class="label">Index</p>
-    <ol>
-      <li><a href="#clinical-ai">Clinical AI Systems</a></li>
-      <li><a href="#applied">Research — Imaging &amp; ML</a></li>
-      <li><a href="#sensing">Biomedical Signal Processing</a></li>
-      <li><a href="#tools">Selected Projects</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#credentials">Education &amp; Recognition</a></li>
-      <li><a href="#publications">Publications</a></li>
-    </ol>
-    <button class="theme-toggle" id="themeToggle" type="button">Invert</button>
-  </nav>
+  <!-- ============ NOW ============ -->
+  <section id="now">
+    <div class="sec-head">
+      <h2>What I am working on</h2>
+      <p class="lede">Most recent first. The older research sits further down the page,
+      where it belongs.</p>
+    </div>
 
-  <main>
-
-    <!-- ============ 1 ============ -->
-    <section id="clinical-ai">
-      <div class="sec-head">
-        <p class="label">Nexmedis &middot; AI Specialist / R&amp;D Officer &middot; 2025–present</p>
-        <h2>Clinical AI Systems</h2>
+    <div class="now-row">
+      <p class="when" style="margin:0">Aug 2026</p>
+      <div>
+        <h3>A grounded WhatsApp assistant, and the harness that graded it</h3>
+        <p>Built a customer-service assistant for an Indonesian small business in Bahasa
+        Indonesia, then wrote an 81-case adversarial suite to find out where it lied.
+        Detailed below.</p>
       </div>
+    </div>
 
-      <div class="note">
-        <span class="label">Confidential</span>
-        <p>This work is proprietary and covered by NDA. What follows describes capability,
-        architecture and my role only — no client data, internal metrics, model artifacts,
-        prompts or datasets are included. The MaleoScribe figures below are from the
-        peer-reviewed publication and are public.</p>
+    <div class="now-row">
+      <p class="when" style="margin:0">2026</p>
+      <div>
+        <h3>MaleoScribe evaluation published at IEEE ICCRAIDS</h3>
+        <p>First author on the evaluation protocol for an Indonesian clinical ASR scribe.
+        Four measured axes instead of one accuracy number, through a full peer-review and
+        revision cycle.</p>
       </div>
+    </div>
 
-      <p class="lede">Health-tech SaaS, Jakarta (remote). Clinical AI engines for the
-      Indonesian healthcare system, taken from research notebooks through to
-      containerised services running on cloud infrastructure.</p>
+    <div class="now-row">
+      <p class="when" style="margin:0">2025 to now</p>
+      <div>
+        <h3>Clinical AI engines at Nexmedis</h3>
+        <p>Health-tech SaaS in Jakarta, remote. Taking clinical models from research
+        notebooks to containerised services: anomaly detection, claims coding, medical
+        document extraction, radiology inference.</p>
+      </div>
+    </div>
+  </section>
 
-      <div class="record">
-        <h3>MaleoScribe — audio to structured clinical documentation</h3>
-        <p class="sub">Technical owner (PIC) &middot; <em>published, first author</em></p>
-        <p>An end-to-end LLM pipeline converting raw consultation audio into structured
-        clinical documentation in the SOAPIE format, in Indonesian: ASR transcription and
-        correction, structured extraction against a typed schema, and automated document
-        generation, behind a production UI.</p>
-        <p>I designed and ran the <strong>evaluation</strong>, which became the published
-        contribution. The argument was that a single accuracy number does not tell you
-        whether a scribe is safe to deploy, so the protocol measured four things instead.</p>
+  <!-- ============ FEATURED BUILD ============ -->
+  <section id="build">
+    <div class="sec-head">
+      <p class="eyebrow">Recent build</p>
+      <h2>Hijab Amira</h2>
+      <p class="kicker">WhatsApp customer service for an Indonesian small business &middot;
+      Python, FastAPI, Groq &middot; August 2026</p>
+    </div>
+
+    <div class="feature">
+      <div>
+        <p class="lede">An Indonesian seller answers roughly 200 WhatsApp messages a day,
+        and most of them repeat four questions: is it in stock, how much, where is my
+        order, how do I pay. <strong>This answers those from the seller's own catalogue,
+        FAQ and order records, and refuses everything else.</strong></p>
+
         <dl class="readout">
-          <div><dt>Word error rate</dt><dd>0.102<small>character rate 0.072</small></dd></div>
-          <div><dt>Semantic similarity</dt><dd>0.978<small>cosine, vs. reference</small></dd></div>
+          <div><dt>Eval accuracy</dt><dd>98%<small>79 of 81 as scored, 81 of 81 after two scorer bugs were fixed</small></dd></div>
+          <div><dt>Traps refused</dt><dd>12 / 12<small>questions whose answer is deliberately absent</small></dd></div>
+          <div><dt>Retrieval</dt><dd>0.056 ms<small>median, two queries over 33 documents</small></dd></div>
         </dl>
-        <ul>
-          <li><strong>Semantic fidelity</strong> alongside raw error rate — a note can be
-          word-imperfect and still clinically correct, or word-perfect and clinically
-          wrong.</li>
-          <li><strong>Domain-specific error</strong> — medical-term and entity error
-          rates, scoring the words that actually matter separately from filler.</li>
-          <li><strong>Noise robustness</strong> across controlled SNR levels. A clinic is
-          not a quiet room.</li>
-          <li><strong>Repeatability</strong> — output stability across repeated runs on
-          identical input, because a scribe that returns a different note each time
-          cannot be trusted with a medical record.</li>
-        </ul>
-        <p>Designed with an explicit clinical safety boundary: the system summarises
-        facts for physician review and does not diagnose.</p>
-      </div>
 
-      <div class="record">
-        <h3>Compliance auditing and anomaly detection</h3>
-        <p class="sub">Isolation Forest + retrieval-augmented contextualizer &middot; <em>selected as a top-5 candidate in a national public-sector AI track</em></p>
-        <p>A system that flags irregularities in large, messy regulatory datasets. The
-        anomaly model scores each record; the retrieval layer attaches the specific
-        regulation it appears to violate — so a reviewer gets a reason, not an unexplained
-        score they have to take on faith.</p>
-        <p>Shipped with the reviewer-facing application: risk-sorted audit queue,
-        per-record deep dive, facility benchmarking and risk heatmaps. All personally
-        identifying columns are dropped at load and never reach the cache; the analysis
-        runs on anonymised identifiers, codes and aggregates.</p>
-      </div>
-
-      <div class="record">
-        <h3>Code-prediction and billing engine</h3>
-        <p class="sub">Claims pipeline for the national casemix reimbursement system</p>
-        <p>Engineering across the pipeline: model retraining, routing-logic fixes, and an
-        <strong>anomaly-detection layer that catches data irregularities before they reach
-        customers</strong>.</p>
-        <div class="pull">
-          Prediction and tariff run local and fast; regulatory retrieval and LLM
-          plausibility audit run upstream and slow. <b>The service is shaped around that
-          split</b> — a coder gets the fast result immediately, and the audit follows.
-        </div>
-        <p>Packaged with a <strong>stubbed mode that runs with zero credentials</strong>,
-        which let interface and demo work proceed without provisioning cloud access or
-        downloading multi-gigabyte model artifacts.</p>
-      </div>
-
-      <div class="record">
-        <h3>Medical document extraction pipeline</h3>
-        <p class="sub">Arbitrary medical PDFs &rarr; typed, de-identified, structured data</p>
-        <ol class="phases">
-          <li><strong>Ingestion &amp; triage</strong> — per-page classification into
-          native-text vs scanned, using a structural text-quality score that rejects
-          <em>corrupt</em> text layers, not just empty ones. Multiple table extractors run
-          in parallel, each result recorded with its accuracy and bounding box.</li>
-          <li><strong>OCR</strong> — pluggable engines recover the scanned pages back
-          into the same document representation.</li>
-          <li><strong>De-identification</strong> — rule-based patterns plus named-entity
-          recognition tuned for Indonesian, redacting the text layer, table cells, and the
-          OCR word bounding boxes so scanned images can be blacked out downstream.</li>
-          <li><strong>Structured extraction</strong> — LLM tool-use against a typed
-          schema, run only on de-identified input.</li>
+        <h4>Three decisions carry the reliability</h4>
+        <ol>
+          <li><strong>Rules decide, the model only writes.</strong> Intent classification,
+          order-ID parsing and escalation are deterministic regex rules. They are testable,
+          free, and incapable of inventing anything. The model is used only to phrase an
+          answer over facts already chosen for it.</li>
+          <li><strong>The model sees the retrieved rows and nothing else.</strong> Its own
+          world knowledge is never the source of a price, a stock level, a policy or a
+          delivery date.</li>
+          <li><strong>When retrieval finds nothing, the model is never called.</strong> A
+          fixed refusal plus a human handoff goes back instead. A model that is not asked
+          cannot invent.</li>
         </ol>
-        <p>Two decisions carried the design. Every phase reads and writes <strong>one
-        intermediate representation</strong> carrying page and bounding-box provenance end
-        to end, so any field in the final output traces back to the pixel it came from.
-        And every dependency was chosen to be <strong>commercial-license-safe</strong> —
-        the obvious PDF library was rejected on licence grounds. It ships with a batch
-        audit tool that flags the pages needing human review before the output is
-        trusted.</p>
-      </div>
 
-      <div class="record">
-        <h3>Computer-vision diagnostics into production</h3>
-        <p class="sub">Technical owner (PIC) &middot; research models converted into production diagnostic APIs, validated for medical-grade accuracy</p>
-        <ul>
-          <li><strong>Chest radiographs</strong> — multi-label abnormality detection over
-          a large annotated dataset, reconciling multiple radiologists' overlapping
-          annotations into single ground-truth boxes via weighted box fusion, then
-          training and evaluating detection architectures across many tracked experiment
-          configurations.</li>
-          <li><strong>Mammography</strong> — a multi-stage engine: separate detectors for
-          masses and calcifications, sliced inference to catch small findings at full
-          resolution, a dedicated verifier network to suppress false positives, and a
-          fusion classifier producing the study-level assessment across both laterality
-          and view.</li>
-        </ul>
-      </div>
+        <p>No vector database and no embedding service: the knowledge base is 33 short
+        documents, and an in-memory TF-IDF index built from the standard library retrieves
+        as well as anything heavier, installs nothing and runs offline. The upgrade path is
+        marked in the code for the day that stops being true.</p>
 
-      <div class="record">
-        <h3>Product and delivery ownership</h3>
-        <p class="sub">Beyond the modelling work</p>
-        <ul>
-          <li><strong>Project manager</strong> for a national member-management platform —
-          owned registration flows, admin dashboards and CSV-export schema design, and
-          coordinated cross-team delivery to ship and hand off a stable system.</li>
-          <li><strong>Systems integration</strong> — built a unified hospital information
-          system prototype: a hand-built clinical consultation UI on a FastAPI backend,
-          integrating four separate AI engines into one realistic workflow, each
-          independently reporting live-versus-stub status. Underlying services are
-          vendored unchanged and run in isolated subprocesses, which keeps their heavy
-          imports and clashing module namespaces out of the web process.</li>
-        </ul>
-      </div>
-
-      <p class="stack"><b>Stack</b>Python · FastAPI · scikit-learn · deep learning and
-      computer vision · LLM APIs (Claude, GPT, Groq, Vertex AI) · RAG and vector search ·
-      Docker · GCP · Gradio and Streamlit for internal tools</p>
-    </section>
-
-
-    <!-- ============ 2 ============ -->
-    <section id="applied">
-      <div class="sec-head">
-        <p class="label">Photonic Laboratory, ITS &middot; Research Assistant &middot; 2022–2024</p>
-        <h2>Research — Imaging &amp; Machine Learning</h2>
-      </div>
-
-      <p class="lede">Imaging and deep-learning systems for real-world classification
-      problems, where the hard part is the <b>measurement</b> — building the acquisition
-      rig, choosing the features, and proving the result holds outside the lab.</p>
-
-      <div class="record">
-        <h3>Adulterant detection in minced meat</h3>
-        <p class="sub">Master's thesis &middot; <em>first author on two papers &middot; named inventor</em></p>
-        <p>Minced beef loses the morphological cues that make adulteration visible to the
-        eye, which makes it a target for substitution fraud. The work shows that a
-        <strong>low-cost colour imaging system paired with a deep neural network</strong>
-        can detect it — no spectroscopy, no lab equipment. I built the full pipeline: data
-        acquisition rig, feature extraction, modelling and evaluation.</p>
-        <p>The point was feasibility at a price a small processor could actually afford.</p>
-        <dl class="readout">
-          <div><dt>Granted IP filings</dt><dd>2<small>method patent + industrial design</small></dd></div>
-          <div><dt>Journal citations</dt><dd>29<small>most-cited on the record</small></dd></div>
-        </dl>
-        <p>The thread produced two first-author conference papers, the master's thesis, a
-        co-authored journal paper in <em>Frontiers in Sustainable Food Systems</em>, and
-        two granted intellectual-property filings for the imaging system.</p>
-      </div>
-
-      <div class="record">
-        <h3>Related applied work</h3>
-        <p class="sub">Co-author &middot; optical sensing, spectroscopy and renewable energy</p>
-        <ul>
-          <li><strong>Fish freshness detection</strong> using UV illumination and a deep
-          neural network.</li>
-          <li><strong>Meat classification from near-infrared spectroscopy</strong> — the
-          spectroscopic counterpart to the imaging approach above.</li>
-          <li><strong>Photovoltaic maximum power-point tracking</strong> with an
-          artificial neural network.</li>
-          <li><strong>Solar panel output temperature prediction</strong> — an improved
-          ANN method.</li>
-        </ul>
-        <p>Supported by national research grants and carried through the full reporting
-        cycle: progress reports, monitoring-and-evaluation presentations, final reports
-        and journal submission.</p>
-      </div>
-    </section>
-
-    <!-- ============ 3 ============ -->
-    <section id="sensing">
-      <div class="sec-head">
-        <p class="label">Research &middot; 2022–2024</p>
-        <h2>Biomedical Signal Processing</h2>
-      </div>
-
-      <div class="record">
-        <h3>KardiaQ — portable heart screening</h3>
-        <p class="sub">Signal-Processing Developer &middot; research initiative</p>
-        <p>Python pipelines to clean and analyse noisy, smartphone-acquired physiological
-        time-series (seismocardiogram and phonocardiogram). The difficulty is that
-        consumer-hardware recordings arrive with irregular sampling and heavy motion
-        artefact, so the pipeline <strong>derives its own sample rate from the
-        timestamps</strong> rather than trusting a nominal value, then bandpass-filters,
-        denoises and detects beats.</p>
-      </div>
-
-      <div class="record">
-        <h3>Fiber-optic cardiac sensing</h3>
-        <p class="sub">Singlemode–multimode–singlemode (SMS) fiber structure as the transducer</p>
-        <p>Optical sensing for non-invasive cardiac monitoring — far cheaper and simpler
-        than the fiber Bragg gratings normally used for this, and immune to the
-        electromagnetic interference that rules out electrode-based monitoring inside an
-        MRI bore.</p>
-
-        <h4>Seismocardiography with a PDMS enclosure — published</h4>
-        <p>Cardiac vibration strains the fiber, changing its refractive index through the
-        photoelastic effect and modulating transmitted optical power — a heartbeat read as
-        an intensity signal on a simple power meter, with no spectrometer in the setup.
-        The contribution was showing the sensor could be <strong>mechanically packaged
-        without losing accuracy</strong>, validated against simultaneous ECG.</p>
-        <dl class="readout">
-          <div><dt>Calibration error</dt><dd>1.63%<small>2 mm PDMS shell</small></dd></div>
-          <div><dt>Validation error</dt><dd>2.29%<small>vs. simultaneous ECG</small></dd></div>
-          <div><dt>Accuracy</dt><dd>97.71%<small>up from 96.48%</small></dd></div>
-        </dl>
-        <p>Statistical testing confirmed the enclosure caused no significant performance
-        change — so the packaging that makes the sensor survivable in the field costs
-        nothing in measurement quality.</p>
-
-        <h4>Fetal phonocardiography — national research grant</h4>
-        <p>Sensor fabrication and characterisation across a full variant matrix:
-        step-index, graded-index and coreless multimode sections at 3 cm and 4.5 cm,
-        spliced between single-mode fiber and interrogated at 1550 nm. Each variant was
-        tested on an acoustic rig replaying a public fetal heart sound database, so every
-        one met identical, repeatable input. Signal chain: 30–70 Hz bandpass &rarr;
-        discrete wavelet transform &rarr; Hilbert envelope &rarr; peak detection for S1/S2
-        identification.</p>
         <div class="pull">
-          <b>Finding:</b> the 3 cm coreless variant resolved S1 and S2 most clearly.
-          Graded-index was markedly quieter, but its amplitude was too small to segment
-          reliably — a real sensitivity-versus-noise trade-off, documented rather than
-          smoothed over.
+          The suite is written to break the assistant, not to flatter it. A case fails
+          when the bot invents an answer <b>and also when it refuses one that is sitting in
+          its own context</b>. Over-refusal loses a sale as surely as a hallucination loses
+          trust.
         </div>
+
+        <h4>What the evaluation actually found</h4>
+        <p>Six of the failures encountered across every run were bugs in my scoring code,
+        not in the assistant. A valid refusal was being marked wrong because its verb was
+        missing from a synonym list. So the scorer got its own regression test, and the
+        refusal check was rewritten as a pattern rather than a list that grows one bug
+        report at a time. The corrected scorer still fails an invented price, so the check
+        was widened and not weakened.</p>
+        <p>Manual use then found a defect the suite had missed: lowering the model's
+        reasoning effort made it start refusing a payment question whose answer was in its
+        retrieved context. That became two permanent over-refusal cases. The behaviour
+        holds across two different models, which is the part that matters: the reliability
+        comes from the retrieval and rules design, not from one model's good manners.</p>
+
+        <h4>Stated plainly</h4>
+        <p>This runs on synthetic data behind a simulated WhatsApp interface, not the
+        WhatsApp Business API and not real customer traffic. Real buyers send voice notes,
+        photographs, half-finished sentences and mixed Sundanese. The suite covers the
+        failure modes I could anticipate. What transfers is the loop: every defect found
+        becomes a permanent case before the fix is called done.</p>
       </div>
 
-      <p class="stack"><b>Stack</b>Python (SciPy, PyWavelets, HeartPy, NumPy) · MATLAB ·
-      fusion splicing and fiber fabrication · optical power meter instrumentation ·
-      signal processing · LaTeX</p>
-    </section>
-
-    <!-- ============ 4 ============ -->
-    <section id="tools">
-      <div class="sec-head">
-        <p class="label">Personal &amp; independent</p>
-        <h2>Selected Projects</h2>
+      <div class="shots">
+        <figure>
+          <a href="hijab-sources.png">
+            <img src="hijab-sources.png" width="920" height="1520" loading="lazy" decoding="async"
+                 alt="The assistant in a WhatsApp-style thread with source tracing switched on. Under each reply: the detected intent, the exact catalogue entries used, and an escalation badge where the message was routed to a human. It answers a stock question with a real price and count, refuses a product it does not stock, and hands a refund demand to the owner.">
+          </a>
+          <figcaption>Source tracing on. Under each reply sits the detected intent, the
+          catalogue rows behind the claim, and the escalation badge, so any number traces
+          back to a row. Off by default, because the demo should look like WhatsApp.
+          Open the image for full size.</figcaption>
+        </figure>
       </div>
+    </div>
+  </section>
 
-      <div class="record">
+  <!-- ============ CLINICAL AI ============ -->
+  <section id="clinical">
+    <div class="sec-head">
+      <h2>Clinical AI systems</h2>
+      <p class="kicker">Nexmedis &middot; AI Specialist / R&amp;D Officer &middot; 2025 to present</p>
+      <p class="lede">Health-tech SaaS for the Indonesian healthcare system. Research
+      notebooks taken through to containerised services on cloud infrastructure.</p>
+    </div>
+
+    <div class="note">
+      <p><b>Confidential</b>This work is proprietary and covered by NDA. What follows
+      describes capability, architecture and my role only. No client data, internal
+      metrics, model artifacts, prompts or datasets appear here. The MaleoScribe figures
+      are from the peer-reviewed publication and are public.</p>
+    </div>
+
+    <div class="record">
+      <h3>MaleoScribe: audio to structured clinical documentation</h3>
+      <p class="sub">Technical owner &middot; <em>published, first author</em></p>
+      <p>An end-to-end LLM pipeline turning raw consultation audio into structured clinical
+      documentation in the SOAPIE format, in Indonesian: ASR transcription and correction,
+      structured extraction against a typed schema, and document generation, behind a
+      production interface.</p>
+      <p>I designed and ran the <strong>evaluation</strong>, which became the published
+      contribution. The argument was that a single accuracy number does not tell you
+      whether a scribe is safe to deploy, so the protocol measured four things instead.</p>
+      <dl class="readout">
+        <div><dt>Word error rate</dt><dd>0.102<small>character error rate 0.072</small></dd></div>
+        <div><dt>Semantic similarity</dt><dd>0.978<small>cosine, against reference documentation</small></dd></div>
+      </dl>
+      <ul>
+        <li><strong>Semantic fidelity</strong> alongside raw error rate. A note can be
+        word-imperfect and still clinically correct, or word-perfect and clinically
+        wrong.</li>
+        <li><strong>Domain-specific error.</strong> Medical-term and entity error rates,
+        scoring the words that matter separately from filler.</li>
+        <li><strong>Noise robustness</strong> across controlled SNR levels, because a
+        clinic is not a quiet room.</li>
+        <li><strong>Repeatability.</strong> Output stability across repeated runs on
+        identical input, because a scribe that returns a different note each time cannot be
+        trusted with a medical record.</li>
+      </ul>
+      <p>Designed with an explicit clinical safety boundary: the system summarises facts
+      for physician review and does not diagnose.</p>
+    </div>
+
+    <div class="record">
+      <h3>Compliance auditing and anomaly detection</h3>
+      <p class="sub">Isolation Forest with a retrieval-augmented contextualizer &middot;
+      <em>top-5 candidate in a national public-sector AI track</em></p>
+      <p>Flags irregularities in large, messy regulatory datasets. The anomaly model scores
+      each record; the retrieval layer attaches the specific regulation it appears to
+      violate, so a reviewer gets a reason rather than an unexplained score they have to
+      take on faith.</p>
+      <p>Shipped with the reviewer-facing application: a risk-sorted audit queue, per-record
+      deep dive, facility benchmarking and risk heatmaps. Personally identifying columns are
+      dropped at load and never reach the cache; the analysis runs on anonymised
+      identifiers, codes and aggregates.</p>
+    </div>
+
+    <div class="record">
+      <h3>Code-prediction and billing engine</h3>
+      <p class="sub">Claims pipeline for the national casemix reimbursement system</p>
+      <p>Engineering across the pipeline: model retraining, routing-logic fixes, and an
+      <strong>anomaly-detection layer that catches data irregularities before they reach
+      customers</strong>.</p>
+      <div class="pull">
+        Prediction and tariff run local and fast. Regulatory retrieval and the LLM
+        plausibility audit run upstream and slow. <b>The service is shaped around that
+        split</b>, so a coder gets the fast result immediately and the audit follows.
+      </div>
+      <p>Packaged with a <strong>stubbed mode that runs on zero credentials</strong>, which
+      let interface and demo work proceed without provisioning cloud access or downloading
+      multi-gigabyte model artifacts.</p>
+    </div>
+
+    <div class="record">
+      <h3>Medical document extraction pipeline</h3>
+      <p class="sub">Arbitrary medical PDFs to typed, de-identified, structured data</p>
+      <ol>
+        <li><strong>Ingestion and triage.</strong> Per-page classification into native-text
+        against scanned, using a structural text-quality score that rejects <em>corrupt</em>
+        text layers rather than only empty ones. Several table extractors run in parallel,
+        each result recorded with its accuracy and bounding box.</li>
+        <li><strong>OCR.</strong> Pluggable engines recover the scanned pages back into the
+        same document representation.</li>
+        <li><strong>De-identification.</strong> Rule-based patterns plus named-entity
+        recognition tuned for Indonesian, redacting the text layer, the table cells and the
+        OCR word bounding boxes, so scanned images can be blacked out downstream.</li>
+        <li><strong>Structured extraction.</strong> LLM tool-use against a typed schema, run
+        only on de-identified input.</li>
+      </ol>
+      <p>Two decisions carried the design. Every phase reads and writes <strong>one
+      intermediate representation</strong> carrying page and bounding-box provenance end to
+      end, so any field in the output traces back to the pixel it came from. And every
+      dependency was chosen to be <strong>commercial-license-safe</strong>; the obvious PDF
+      library was rejected on licence grounds. It ships with a batch audit tool that flags
+      the pages needing human review before the output is trusted.</p>
+    </div>
+
+    <div class="record">
+      <h3>Computer-vision diagnostics into production</h3>
+      <p class="sub">Technical owner &middot; research models converted into diagnostic APIs,
+      validated for medical-grade accuracy</p>
+      <ul>
+        <li><strong>Chest radiographs.</strong> Multi-label abnormality detection over a
+        large annotated dataset, reconciling several radiologists' overlapping annotations
+        into single ground-truth boxes by weighted box fusion, then training and evaluating
+        detection architectures across many tracked experiment configurations.</li>
+        <li><strong>Mammography.</strong> A multi-stage engine: separate detectors for
+        masses and calcifications, sliced inference to catch small findings at full
+        resolution, a dedicated verifier network to suppress false positives, and a fusion
+        classifier producing the study-level assessment across both laterality and view.</li>
+      </ul>
+    </div>
+
+    <div class="record">
+      <h3>Product and delivery ownership</h3>
+      <p class="sub">Beyond the modelling work</p>
+      <ul>
+        <li><strong>Project manager</strong> for a national member-management platform.
+        Owned registration flows, admin dashboards and CSV-export schema design, and
+        coordinated cross-team delivery to ship and hand off a stable system.</li>
+        <li><strong>Systems integration.</strong> Built a unified hospital information
+        system prototype: a hand-built clinical consultation interface on a FastAPI backend,
+        integrating four separate AI engines into one realistic workflow, each independently
+        reporting live-against-stub status. The underlying services are vendored unchanged
+        and run in isolated subprocesses, which keeps their heavy imports and clashing
+        module namespaces out of the web process.</li>
+      </ul>
+    </div>
+
+    <p class="stack"><b>Stack</b>Python &middot; FastAPI &middot; scikit-learn &middot; deep
+    learning and computer vision &middot; LLM APIs (Claude, GPT, Groq, Vertex AI) &middot;
+    RAG and vector search &middot; Docker &middot; GCP &middot; Gradio and Streamlit for
+    internal tools</p>
+  </section>
+
+  <!-- ============ METHOD ============ -->
+  <section id="method">
+    <div class="sec-head">
+      <h2>How I decide something is ready</h2>
+      <p class="lede">The same argument runs through a fiber sensor, a clinical scribe and
+      a shop assistant: <strong>one number is not evidence.</strong> Each of these systems
+      shipped because a protocol said it could, and the protocol was designed to say no.</p>
+    </div>
+
+    <div class="beats">
+      <div>
+        <h3>Measure more than one thing</h3>
+        <p>A clinical scribe was scored on transcription error, semantic fidelity,
+        medical-term error, noise robustness and repeatability. A note can be word-perfect
+        and clinically wrong. Word error rate alone would have cleared it.</p>
+      </div>
+      <div>
+        <h3>Write the test to fail</h3>
+        <p>Eighty-one cases built from slang, typos, prompt injection and questions with no
+        answer in the data. Cases fail in both directions, for inventing an answer and for
+        refusing one that was present. Six of the bugs found were in the scorer, so the
+        scorer got its own tests.</p>
+      </div>
+      <div>
+        <h3>Calibrate against a gold standard</h3>
+        <p>An optical cardiac sensor was validated against simultaneous ECG, not against
+        its own repeatability. The packaged sensor held 2.29% error, and statistical
+        testing confirmed the enclosure cost nothing in measurement quality.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OTHER WORK ============ -->
+  <section id="work">
+    <div class="sec-head">
+      <h2>Other things I have shipped</h2>
+      <p class="lede">Independent and side work. Small, finished, in use.</p>
+    </div>
+
+    <div class="work">
+      <article>
         <h3>Multi-account trading dashboard</h3>
-        <p class="sub">Python · Streamlit · Railway · GitHub Actions CI/CD</p>
-        <p>A dashboard with batch and near-real-time data processing: live pricing through
-        a <strong>six-source failover chain</strong> across exchanges and price APIs,
-        multi-position P&amp;L, per-position liquidation-risk indicators, and
-        threshold-based price-anomaly alerts. Normalises trade-history imports from six
-        exchanges, each with multiple CSV formats.</p>
-        <p>Alerting runs on scheduled CI jobs rather than a paid server, delivered to
-        Telegram with a companion bot for on-demand <code>/report</code> queries.
-        End-to-end shipping of a live, alert-generating data product.</p>
-      </div>
-
-      <div class="record">
-        <h3>Automated resume-generation pipeline</h3>
-        <p class="sub">DuckDB + SQL · LLM API</p>
-        <p>A data pipeline over a large public clinical dataset, transforming messy raw
-        records into clean, structured artifacts with HTML export.</p>
-      </div>
-
-      <div class="record">
+        <p class="sub">Python &middot; Streamlit &middot; Railway &middot; GitHub Actions</p>
+        <p>Batch and near-real-time processing with a <strong>six-source failover chain</strong>
+        for live pricing across exchanges and price APIs, multi-position profit and loss,
+        per-position liquidation risk, and threshold price alerts. Normalises trade history
+        from six exchanges, each with several CSV formats.</p>
+        <p>Alerting runs on scheduled CI jobs instead of a paid server, delivered to
+        Telegram with a companion bot for on-demand <code>/report</code> queries.</p>
+      </article>
+      <article>
         <h3>Uniform management system</h3>
-        <p class="sub">Python · SQLite · shipped as a single .exe</p>
-        <p>A desktop application replacing a spreadsheet-based tracking workflow, built
-        for a non-technical user with no IT support. It imports the existing Excel master
-        file once, then exports back to the same format on demand — so the tool fits the
-        organisation's existing reporting habits instead of demanding they change. Runs
-        entirely offline; the database is one file the user can back up by copying it.</p>
-      </div>
-
-      <div class="record">
+        <p class="sub">Python &middot; SQLite &middot; shipped as a single .exe</p>
+        <p>A desktop application replacing a spreadsheet workflow, built for a
+        non-technical user with no IT support. It imports the existing Excel master file
+        once, then exports back to the same format on demand, so the tool fits the
+        organisation's reporting habits instead of demanding they change.</p>
+        <p>Runs entirely offline. The database is one file the user backs up by copying
+        it.</p>
+      </article>
+      <article>
         <h3>Web engineering</h3>
         <p class="sub">Independent side practice &middot; client details not disclosed</p>
-        <p>Ongoing side work delivering production websites and small web applications.
-        The consistent position is <strong>static-first with near-zero JavaScript</strong>,
-        because that is what makes small-business sites fast, cheap to host and good at
-        search — builds typically ship under 1 KB of JavaScript site-wide with self-hosted
-        subset fonts.</p>
-        <p>Delivered work includes content-driven static sites, where a multi-page
-        catalogue renders from one template plus a data file per entry, and a booking
-        application on PostgreSQL where scheduling conflicts are prevented by a
-        <strong>database exclusion constraint rather than application logic</strong>.
-        Palettes are verified against WCAG contrast ratios rather than assumed, and client
-        documentation is written for non-technical owners.</p>
-      </div>
-    </section>
-    <!-- ============ skills ============ -->
-    <section id="skills">
-      <div class="sec-head">
-        <p class="label">Capability</p>
-        <h2>Skills</h2>
-      </div>
+        <p>Production websites and small web applications. The consistent position is
+        <strong>static-first with near-zero JavaScript</strong>, because that is what makes
+        small-business sites fast, cheap to host and good at search. Builds typically ship
+        under 1 KB of JavaScript site-wide.</p>
+        <p>Includes a booking application on PostgreSQL where scheduling conflicts are
+        prevented by a <strong>database exclusion constraint rather than application
+        logic</strong>. Palettes are checked against WCAG contrast ratios rather than
+        assumed.</p>
+      </article>
+      <article>
+        <h3>Clinical data pipeline</h3>
+        <p class="sub">DuckDB and SQL &middot; LLM API</p>
+        <p>A pipeline over a large public clinical dataset, turning messy raw records into
+        clean structured artifacts with HTML export. Built to answer a narrow question
+        quickly rather than to become infrastructure.</p>
+      </article>
+    </div>
+  </section>
 
-      <p class="lede">Grouped by how confidently I work in each. I'd rather be accurate
-      about this than list everything I've touched.</p>
+  <!-- ============ RESEARCH RECORD ============ -->
+  <section id="record">
+    <div class="sec-head">
+      <h2>Research record</h2>
+      <p class="kicker">Photonic Laboratory, Institut Teknologi Sepuluh Nopember &middot;
+      Research Assistant &middot; 2022 to 2024</p>
+      <p class="lede">Measurement systems where the hard part is the instrument: building
+      the acquisition rig, choosing the features, and proving the result holds outside the
+      lab.</p>
+    </div>
 
-      <p class="pub-group">Core — I build and ship in these independently</p>
-      <div class="scroller">
-        <table class="skills">
-          <tbody>
-            <tr><th>Languages &amp; data</th><td>Python, SQL, DuckDB, MATLAB</td></tr>
-            <tr><th>ML / AI</th><td>Anomaly detection (Isolation Forest), time-series analysis, statistical methods, predictive modelling, deep learning and computer vision, ASR evaluation</td></tr>
-            <tr><th>LLM / GenAI</th><td>Claude, GPT and Groq APIs, RAG, prompt design, structured extraction, evaluation-harness design</td></tr>
-            <tr><th>Signal &amp; image</th><td>Digital filtering, wavelet transforms, Hilbert transform, peak detection, feature extraction, NIR spectroscopy, OCR, DICOM</td></tr>
-            <tr><th>Shipping</th><td>Gradio, Streamlit, Docker, GitHub Actions (CI/CD), Railway, REST APIs, FastAPI, Telegram bot automation, Git</td></tr>
-            <tr><th>Ways of working</th><td>Feature and product ownership, project management, cross-functional collaboration, technical writing, peer-reviewed publication</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <p class="pub-group">Working knowledge — I read, integrate and adapt these</p>
-      <p class="sub">I've shipped things using them, but I'd want time or a second pair of
-      eyes before authoring something substantial from scratch.</p>
-      <div class="scroller">
-        <table class="skills">
-          <tbody>
-            <tr><th>Cloud</th><td>AWS (Certified Cloud Practitioner), GCP (Vertex AI, Cloud Run, Secret Manager)</td></tr>
-            <tr><th>Databases</th><td>PostgreSQL, Supabase, row-level security</td></tr>
-            <tr><th>Frontend</th><td>Astro, TypeScript, Tailwind CSS, static-site tooling</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <p class="pub-group">Domain knowledge</p>
-      <p>Clinical documentation standards, casemix reimbursement, medical
-      de-identification, biomedical instrumentation, fiber-optic sensing, food-quality
-      imaging.</p>
-    </section>
-
-    <!-- ============ credentials ============ -->
-    <section id="credentials">
-      <div class="sec-head">
-        <p class="label">Background</p>
-        <h2>Education &amp; Recognition</h2>
-      </div>
-
-      <div class="scroller">
-        <table>
-          <thead><tr><th>Degree</th><th>Institution</th><th>Completed</th></tr></thead>
-          <tbody>
-            <tr><th>M.Eng., Engineering Physics (Instrumentation)</th><td>Institut Teknologi Sepuluh Nopember</td><td>2024 · GPA 3.80/4.00</td></tr>
-            <tr><th>B.Eng., Engineering Physics</th><td>Institut Teknologi Sepuluh Nopember</td><td>2022 · GPA 3.73/4.00</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <p class="pub-group">Recognition</p>
-      <ul>
-        <li><strong>Two granted intellectual-property filings</strong> — a method patent
-        and an industrial design, for an ML-based imaging system. Named inventor.</li>
-        <li><strong>1st Place, LKTI-PRFVIN 2021</strong> — CNN-based voice-recognition
-        system for COVID-19 detection.</li>
-        <li><strong>AWS Certified Cloud Practitioner</strong>; AWS re/Start Graduate.</li>
-        <li>Product selected as a <strong>top-5 candidate in a national public-sector AI
-        track</strong>.</li>
-      </ul>
-    </section>
-
-    <!-- ============ publications ============ -->
-    <section id="publications">
-      <div class="sec-head">
-        <p class="label">Peer-reviewed</p>
-        <h2>Publications</h2>
-      </div>
-
+    <div class="record">
+      <h3>Adulterant detection in minced meat</h3>
+      <p class="sub">Master's thesis &middot; <em>first author on two papers, named
+      inventor</em></p>
+      <p>Minced beef loses the morphological cues that make adulteration visible to the eye,
+      which makes it a target for substitution fraud. The work shows that a <strong>low-cost
+      colour imaging system paired with a deep neural network</strong> can detect it, with
+      no spectroscopy and no lab equipment. I built the full pipeline: acquisition rig,
+      feature extraction, modelling and evaluation. The point was feasibility at a price a
+      small processor could actually afford.</p>
       <dl class="readout">
-        <div><dt>Citations</dt><dd>40</dd></div>
-        <div><dt>h-index</dt><dd>3</dd></div>
-        <div><dt>i10-index</dt><dd>1</dd></div>
+        <div><dt>Granted IP filings</dt><dd>2<small>method patent and industrial design</small></dd></div>
+        <div><dt>Journal citations</dt><dd>29<small>most-cited paper on the record</small></dd></div>
       </dl>
-      <p class="sub"><a href="https://scholar.google.co.id/citations?user=Oz2KIi8AAAAJ">Google Scholar profile</a></p>
+      <p>The thread produced two first-author conference papers, the master's thesis, a
+      co-authored journal paper in <em>Frontiers in Sustainable Food Systems</em>, and two
+      granted intellectual-property filings for the imaging system. Related co-authored
+      work covers fish freshness under UV illumination, meat classification from
+      near-infrared spectroscopy, and two neural-network papers on photovoltaic
+      performance.</p>
+    </div>
+
+    <div class="record">
+      <h3>Fiber-optic cardiac sensing</h3>
+      <p class="sub">Singlemode to multimode to singlemode fiber structure as the
+      transducer &middot; <em>published, national research grant</em></p>
+      <p>Optical sensing for non-invasive cardiac monitoring, far cheaper and simpler than
+      the fiber Bragg gratings normally used for it, and immune to the electromagnetic
+      interference that rules out electrode-based monitoring inside an MRI bore.</p>
+      <p>Cardiac vibration strains the fiber, changing its refractive index through the
+      photoelastic effect and modulating transmitted optical power. A heartbeat read as an
+      intensity signal on a simple power meter, with no spectrometer in the setup. The
+      contribution was showing the sensor could be <strong>mechanically packaged without
+      losing accuracy</strong>, validated against simultaneous ECG.</p>
+      <dl class="readout">
+        <div><dt>Calibration error</dt><dd>1.63%<small>2 mm PDMS shell</small></dd></div>
+        <div><dt>Validation error</dt><dd>2.29%<small>against simultaneous ECG</small></dd></div>
+        <div><dt>Accuracy</dt><dd>97.71%<small>up from 96.48%</small></dd></div>
+      </dl>
+      <p>A second grant-funded thread covered fetal phonocardiography: sensor fabrication
+      across a full variant matrix of step-index, graded-index and coreless multimode
+      sections at 3 cm and 4.5 cm, spliced between single-mode fiber and interrogated at
+      1550 nm. Every variant was tested on an acoustic rig replaying a public fetal heart
+      sound database, so each met an identical, repeatable input.</p>
+      <div class="pull">
+        <b>Finding:</b> the 3 cm coreless variant resolved the first and second heart
+        sounds most clearly. Graded-index was markedly quieter, but its amplitude was too
+        small to segment reliably. A real sensitivity against noise trade-off, documented
+        rather than smoothed over.
+      </div>
+      <p>Separately, on the KardiaQ portable screening initiative, I wrote the pipelines
+      that clean noisy smartphone-acquired seismocardiogram and phonocardiogram signals.
+      Consumer-hardware recordings arrive with irregular sampling and heavy motion
+      artefact, so the pipeline <strong>derives its own sample rate from the
+      timestamps</strong> rather than trusting a nominal value, then bandpass-filters,
+      denoises and detects beats.</p>
+    </div>
+
+    <p class="stack"><b>Stack</b>Python (SciPy, PyWavelets, HeartPy, NumPy) &middot; MATLAB
+    &middot; fusion splicing and fiber fabrication &middot; optical power meter
+    instrumentation &middot; signal processing &middot; LaTeX</p>
+
+    <dl class="readout" style="margin-top:34px">
+      <div><dt>Publications</dt><dd>10</dd></div>
+      <div><dt>Citations</dt><dd>40</dd></div>
+      <div><dt>h-index</dt><dd>3</dd></div>
+      <div><dt>i10-index</dt><dd>1</dd></div>
+    </dl>
+    <p class="kicker"><a href="https://scholar.google.co.id/citations?user=Oz2KIi8AAAAJ">Google Scholar profile</a></p>
+
+    <details>
+      <summary>All ten publications</summary>
 
       <p class="pub-group">Journal articles</p>
       <ol class="pubs">
@@ -932,16 +1033,16 @@
         <li>
           <span class="authors">Agustiyanto, F.R., Hatta, A.M., Arifianto, D., Radityo, M., Santoso, M.P., <b>Stendafity, S.</b>, Pikir, B.S.</span>
           <cite>Seismocardiograph Monitoring Using SMS Fiber Structure with PDMS Enclosure</cite>
-          <span class="venue">Journal of Biomedical Photonics &amp; Engineering 11(1), 48–54 (2025)</span>
+          <span class="venue">Journal of Biomedical Photonics &amp; Engineering 11(1), 48 to 54 (2025)</span>
         </li>
       </ol>
 
-      <p class="pub-group">Conference papers — first author</p>
+      <p class="pub-group">Conference papers, first author</p>
       <ol class="pubs" start="3">
         <li>
           <span class="authors"><b>Stendafity, S.</b>, Rafiq, A., Tarandha, A.D.</span>
           <cite>MaleoScribe: An Evaluation of Deep Learning-Based ASR for Spoken Doctor's Note in Bahasa Indonesia</cite>
-          <span class="venue">2026 IEEE International Conference on Current Research in Artificial Intelligence and Data Science (ICCRAIDS) — <a href="https://doi.org/10.1109/ICCRAIDS67816.2026.11519646">doi:10.1109/ICCRAIDS67816.2026.11519646</a></span>
+          <span class="venue">2026 IEEE International Conference on Current Research in Artificial Intelligence and Data Science (ICCRAIDS). <a href="https://doi.org/10.1109/ICCRAIDS67816.2026.11519646">doi:10.1109/ICCRAIDS67816.2026.11519646</a></span>
         </li>
         <li>
           <span class="authors"><b>Stendafity, S.</b>, Hatta, A.M., Setiadi, I.C., Rahmadiansah, A.</span>
@@ -955,7 +1056,7 @@
         </li>
       </ol>
 
-      <p class="pub-group">Conference papers — co-author</p>
+      <p class="pub-group">Conference papers, co-author</p>
       <ol class="pubs" start="6">
         <li>
           <span class="authors">Pertiwi, N.K., Hatta, A.M., Setiadi, I.C., <b>Stendafity, S.</b>, Damayanti, A.A., Hartati, A.D., et al.</span>
@@ -987,92 +1088,96 @@
           <span class="venue">Institut Teknologi Sepuluh Nopember (2024)</span>
         </li>
       </ol>
-    </section>
+    </details>
+  </section>
 
-  </main>
+  <!-- ============ CAPABILITY ============ -->
+  <section id="skills">
+    <div class="sec-head">
+      <h2>Capability and background</h2>
+      <p class="lede">Grouped by how confidently I work in each. I would rather be accurate
+      about this than list everything I have touched.</p>
+    </div>
+
+    <p class="pub-group">Core, I build and ship in these independently</p>
+    <div class="scroller">
+      <table>
+        <tbody>
+          <tr><th>Languages and data</th><td>Python, SQL, DuckDB, MATLAB</td></tr>
+          <tr><th>ML and AI</th><td>Anomaly detection (Isolation Forest), time-series analysis, statistical methods, predictive modelling, deep learning and computer vision, ASR evaluation</td></tr>
+          <tr><th>LLM and GenAI</th><td>Claude, GPT and Groq APIs, RAG, prompt design, structured extraction, evaluation-harness design</td></tr>
+          <tr><th>Signal and image</th><td>Digital filtering, wavelet transforms, Hilbert transform, peak detection, feature extraction, NIR spectroscopy, OCR, DICOM</td></tr>
+          <tr><th>Shipping</th><td>FastAPI, REST APIs, Docker, GitHub Actions, Railway, Gradio, Streamlit, Telegram bot automation, Git</td></tr>
+          <tr><th>Ways of working</th><td>Feature and product ownership, project management, cross-functional collaboration, technical writing, peer-reviewed publication</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="pub-group">Working knowledge, I read, integrate and adapt these</p>
+    <p class="kicker">I have shipped things using them, but I would want time or a second
+    pair of eyes before authoring something substantial from scratch.</p>
+    <div class="scroller">
+      <table>
+        <tbody>
+          <tr><th>Cloud</th><td>AWS (Certified Cloud Practitioner), GCP (Vertex AI, Cloud Run, Secret Manager)</td></tr>
+          <tr><th>Databases</th><td>PostgreSQL, Supabase, row-level security</td></tr>
+          <tr><th>Frontend</th><td>Astro, TypeScript, Tailwind CSS, static-site tooling</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="pub-group">Domain knowledge</p>
+    <p>Clinical documentation standards, casemix reimbursement, medical de-identification,
+    biomedical instrumentation, fiber-optic sensing, food-quality imaging.</p>
+
+    <p class="pub-group">Education</p>
+    <div class="scroller">
+      <table>
+        <thead><tr><th>Degree</th><th>Institution</th><th>Completed</th></tr></thead>
+        <tbody>
+          <tr><th>M.Eng., Engineering Physics (Instrumentation)</th><td>Institut Teknologi Sepuluh Nopember</td><td>2024, GPA 3.80 / 4.00</td></tr>
+          <tr><th>B.Eng., Engineering Physics</th><td>Institut Teknologi Sepuluh Nopember</td><td>2022, GPA 3.73 / 4.00</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="pub-group">Recognition</p>
+    <ul>
+      <li><strong>Two granted intellectual-property filings</strong>, a method patent and
+      an industrial design, for an ML-based imaging system. Named inventor.</li>
+      <li>Product selected as a <strong>top-5 candidate in a national public-sector AI
+      track</strong>.</li>
+      <li><strong>1st place, LKTI-PRFVIN 2021</strong>, a CNN-based voice-recognition system
+      for COVID-19 detection.</li>
+      <li><strong>AWS Certified Cloud Practitioner</strong> and AWS re/Start graduate.</li>
+    </ul>
+  </section>
+
 </div>
+</main>
 
-<footer class="wrap">
-  <span>Selfi Stendafity — AI Specialist / R&amp;D Officer</span>
-  <span>
-    <a href="mailto:selfistendafity@gmail.com">selfistendafity@gmail.com</a>
-    &nbsp;·&nbsp;
-    <a href="https://scholar.google.co.id/citations?user=Oz2KIi8AAAAJ">Google Scholar</a>
-  </span>
+<footer>
+  <div class="wrap foot-grid">
+    <div class="foot-links">
+      <a href="mailto:selfistendafity@gmail.com">selfistendafity@gmail.com</a>
+      <a href="https://linkedin.com/in/selfi-stendafity">linkedin.com/in/selfi-stendafity</a>
+      <a href="https://github.com/Sstendafity">github.com/Sstendafity</a>
+      <a href="https://scholar.google.co.id/citations?user=Oz2KIi8AAAAJ">Google Scholar</a>
+    </div>
+    <p class="foot-note">Selfi Stendafity, AI Specialist and R&amp;D Officer. Tuban,
+    Indonesia. Open to work on AI systems that have to be right.</p>
+  </div>
 </footer>
 
 <script>
-  // Theme toggle — flips whichever theme is currently resolved.
+  // Theme toggle. Flips whichever theme is currently resolved.
   var root = document.documentElement;
   document.getElementById("themeToggle").addEventListener("click", function () {
     var dark = root.getAttribute("data-theme") === "dark" ||
       (!root.hasAttribute("data-theme") &&
         window.matchMedia("(prefers-color-scheme: dark)").matches);
     root.setAttribute("data-theme", dark ? "light" : "dark");
-    draw(lastT);
   });
-
-  // Phonocardiogram trace — the signal these sensors actually capture.
-  var cv = document.getElementById("trace");
-  var ctx = cv.getContext("2d");
-  var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var W = 0, H = 0, lastT = 0;
-
-  function resize() {
-    var r = window.devicePixelRatio || 1;
-    W = cv.clientWidth; H = cv.clientHeight;
-    cv.width = W * r; cv.height = H * r;
-    ctx.setTransform(r, 0, 0, r, 0, 0);
-    draw(lastT);
-  }
-
-  // One cardiac cycle: S1 (loud, low) then S2 (shorter, sharper).
-  function beat(p) {
-    var v = 0;
-    if (p >= 0.06 && p < 0.26) {
-      var a = (p - 0.06) / 0.20;
-      v += Math.sin(a * Math.PI * 7) * Math.exp(-a * 3.4) * 1.0;
-    }
-    if (p >= 0.40 && p < 0.54) {
-      var b = (p - 0.40) / 0.14;
-      v += Math.sin(b * Math.PI * 9) * Math.exp(-b * 4.6) * 0.62;
-    }
-    return v;
-  }
-
-  function draw(t) {
-    lastT = t;
-    var css = getComputedStyle(root);
-    ctx.clearRect(0, 0, W, H);
-
-    // graticule
-    ctx.strokeStyle = css.getPropertyValue("--grid").trim();
-    ctx.lineWidth = 1;
-    for (var x = 0; x <= W; x += 44) {
-      ctx.beginPath(); ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, H); ctx.stroke();
-    }
-    ctx.beginPath(); ctx.moveTo(0, H / 2 + 0.5); ctx.lineTo(W, H / 2 + 0.5); ctx.stroke();
-
-    // trace
-    var shift = still ? 0 : (t / 26) % W;
-    var amp = H * 0.34;
-    ctx.strokeStyle = css.getPropertyValue("--trace").trim();
-    ctx.lineWidth = 1.4;
-    ctx.lineJoin = "round";
-    ctx.beginPath();
-    for (var i = 0; i <= W; i++) {
-      var s = (i + shift) / 176;
-      var y = H / 2 - beat(s % 1) * amp;
-      i ? ctx.lineTo(i, y) : ctx.moveTo(i, y);
-    }
-    ctx.stroke();
-  }
-
-  window.addEventListener("resize", resize);
-  resize();
-  if (!still) {
-    (function loop(t) { draw(t); requestAnimationFrame(loop); })(0);
-  }
 </script>
 </body>
 </html>
