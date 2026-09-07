@@ -863,17 +863,16 @@
 
       <h4>Stated plainly</h4>
       <p>Both reached roughly 0.80 patient-level AUC, so the discriminative signal is real,
-      and both fall short of deployment for reasons worth naming. The chest model localises
-      coarsely: the gap between mAP@50 and mAP@75 is wide, so it finds the right study more
-      reliably than it finds the right region. The mammography engine carries a high
-      detection-level false-positive rate, which was a deliberate trade, because in
-      screening a missed finding costs far more than a false alarm a radiologist dismisses
-      in a second.</p>
-      <p>Neither deployed. Both were feasibility studies, and that is the outcome a
-      feasibility study is supposed to produce: enough honest evidence for a go or no-go
-      decision, before anyone builds on top of it. The mammography work paused when compute
-      credits ran out after December and the team adapted to what was left, not because the
-      approach had failed.</p>
+      and both stop short of deployment for reasons worth naming. The chest model localises
+      coarsely: the gap between mAP@50 and mAP@75 is wide, so it identifies the right study
+      more reliably than the right region. The mammography engine carries a high
+      detection-level false-positive rate. That was a deliberate trade toward recall,
+      because in screening a missed finding costs far more than a false alarm a radiologist
+      dismisses in a second.</p>
+      <p>Both were scoped as feasibility studies, and neither was carried through to
+      deployment. That is the outcome a feasibility study is meant to produce: enough
+      measured evidence to support a go or no-go decision before anything is built on top
+      of it.</p>
     </div>
 
     <div class="record">
